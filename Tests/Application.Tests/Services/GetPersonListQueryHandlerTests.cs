@@ -1,27 +1,27 @@
 ﻿using Application.Services;
 using DAL.Models;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Application.Tests.Services
 {
-    public class GetPersonListQueryServiceTests
+    public class GetPersonListQueryHandlerTests
     {
         [Fact]
-        public async void EmptyDatabase_EmptyResult_Test()
+        public async Task EmptyDatabase_EmptyResult_Test()
         {
             using (var dbContext = TestDbContext.Create())
             {
-                var service = new GetPersonListQueryService(dbContext);
+                var handler = new GetPersonListQueryHandler(dbContext);
 
-                var res = await service.ExecuteAsync(new GetPersonListQuery());
+                var res = await handler.ExecuteAsync(new GetPersonListQuery());
 
                 Assert.Empty(res);
             }
         }
 
         [Fact]
-        public async void DataBaseWithSinglePerson_ThatPersonIsReturned_Test()
+        public async Task DataBaseWithSinglePerson_ThatPersonIsReturned_Test()
         {
             using (var dbContext = TestDbContext.Create())
             {
@@ -29,9 +29,9 @@ namespace Application.Tests.Services
                 dbContext.Person.Add(person);
                 await dbContext.SaveChangesAsync();
 
-                var service = new GetPersonListQueryService(dbContext);
+                var handler = new GetPersonListQueryHandler(dbContext);
 
-                var res = await service.ExecuteAsync(new GetPersonListQuery());
+                var res = await handler.ExecuteAsync(new GetPersonListQuery());
 
                 Assert.Equal(1, res.Count);
                 Assert.Equal(person.BusinessEntityId, res[0].BusinessEntityId);

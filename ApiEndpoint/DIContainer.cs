@@ -12,7 +12,9 @@ public static class DIContainer
             throw new Exception("Environment variable AdventureWorks2019ConnStr is not defined.");
 
         services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(connStr));
-        services.AddScoped<IQueryService<GetPersonListQuery, IList<Person>>,
-            GetPersonListQueryService>();
+        services.AddScoped<IQueryHandler<GetPersonListQuery, IList<Person>>,
+            GetPersonListQueryHandler>();
+        services.AddScoped<ICommandHandler<CreatePersonCommand>,
+            CreatePersonCommandHandler>();
     }
 }
