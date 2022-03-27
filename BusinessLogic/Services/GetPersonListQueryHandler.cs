@@ -15,7 +15,7 @@ namespace Application.Services
 
         public async Task<IList<Person>> ExecuteAsync(GetPersonListQuery query, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Person.Take(100).AsNoTracking().ToListAsync(cancellationToken);
+            return await _dbContext.Person.AsNoTracking().Take(100).ToListAsync(cancellationToken);
         }
     }
 

@@ -19,7 +19,8 @@ namespace Application.Tests.Services
                     Suffix = "Suffix1"
                 });                
                 
-                Assert.NotNull(res.NewEntityId);
+                var person = await dbContext.Person.FindAsync(res.NewEntityId);
+                Assert.NotNull(person);
             }
         }
     }
