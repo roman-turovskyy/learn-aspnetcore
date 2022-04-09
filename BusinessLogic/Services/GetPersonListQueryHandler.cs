@@ -6,9 +6,9 @@ namespace Application.Services
 {
     public class GetPersonListQueryHandler : IQueryHandler<GetPersonListQuery, IList<Person>>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IAppDbContext _dbContext;
 
-        public GetPersonListQueryHandler(AppDbContext dbContext)
+        public GetPersonListQueryHandler(IAppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

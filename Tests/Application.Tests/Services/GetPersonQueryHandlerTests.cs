@@ -20,6 +20,7 @@ namespace Application.Tests.Services
 
                 var res = await handler.ExecuteAsync(new GetPersonQuery(person.BusinessEntityId));
 
+                Assert.NotNull(res);
                 Assert.Equal(person.BusinessEntityId, res.BusinessEntityId);
             }
         }

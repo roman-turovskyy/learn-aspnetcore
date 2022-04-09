@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.DAL
 {
-    public class AppDbContext : AdventureWorks2019Context
+    public class AppDbContext : AdventureWorks2019Context, IAppDbContext
     {
         public AppDbContext()
         {

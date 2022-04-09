@@ -1,10 +1,9 @@
 ﻿using Application.DAL;
 using DAL.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
-    public class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, Person>
+    public class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, Person?>
     {
         private readonly AppDbContext _dbContext;
 
@@ -13,9 +12,9 @@ namespace Application.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Person> ExecuteAsync(GetPersonQuery query, CancellationToken cancellationToken = default)
+        public async Task<Person?> ExecuteAsync(GetPersonQuery query, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Person.FindAsync(query.Id);
+            return await _dbContext.Person.FindAsync(new object?[] { query.Id }, cancellationToken: cancellationToken);
         }
     }
 
