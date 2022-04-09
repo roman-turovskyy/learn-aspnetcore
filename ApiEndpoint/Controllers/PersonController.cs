@@ -1,5 +1,6 @@
 using Application.Services;
 using DAL.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiEndpoint.Controllers
@@ -8,24 +9,17 @@ namespace ApiEndpoint.Controllers
     [Route("[controller]")]
     public class PersonController : ControllerBase
     {
-        private readonly IQueryHandler<GetPersonQuery, Person?> _getPersonQuery;
-        private readonly IQueryHandler<GetPersonListQuery, IList<Person>> _getPersonListQuery;
-        private readonly ICommandHandler<CreatePersonCommand> _createPersonCommand;
+        private readonly IMediator _mediator;
 
-        public PersonController(
-            IQueryHandler<GetPersonQuery, Person?> getPersonQuery,
-            IQueryHandler<GetPersonListQuery, IList<Person>> personQueryService,
-            ICommandHandler<CreatePersonCommand> createPersonCommand)
+        public PersonController(IMediator mediator)
         {
-            _getPersonQuery = getPersonQuery;
-            _getPersonListQuery = personQueryService;
-            _createPersonCommand = createPersonCommand;
+            _mediator = mediator;
         }
 
         [HttpGet, Route("{id}")]
         public async Task<ActionResult<Person>> GetSingle(int id)
         {
-            var res = await _getPersonQuery.ExecuteAsync(new GetPersonQuery(id));
+            var res = await _mediator.Send(new GetPersonQuery(id));
             if (res == null)
                 return NotFound($"Person {id} does not exist.");
             return res;
@@ -34,13 +28,13 @@ namespace ApiEndpoint.Controllers
         [HttpGet]
         public async Task<ICollection<Person>> GetList()
         {
-            return await _getPersonListQuery.ExecuteAsync(new GetPersonListQuery());
+            return await _mediator.Send(new GetPersonListQuery());
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(CreatePersonCommand createPerson)
         {
-            await _createPersonCommand.ExecuteAsync(createPerson);
+            await _mediator.Send(createPerson);
             return Ok();
         }
     }

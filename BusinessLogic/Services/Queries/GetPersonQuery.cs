@@ -3,6 +3,16 @@ using DAL.Models;
 
 namespace Application.Services
 {
+    public class GetPersonQuery : IQuery<Person?>
+    {
+        public int Id { get; set; }
+
+        public GetPersonQuery(int id)
+        {
+            Id = id;
+        }
+    }
+
     public class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, Person?>
     {
         private readonly AppDbContext _dbContext;
@@ -12,19 +22,9 @@ namespace Application.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Person?> ExecuteAsync(GetPersonQuery query, CancellationToken cancellationToken = default)
+        public async Task<Person?> Handle(GetPersonQuery query, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Person.FindAsync(new object?[] { query.Id }, cancellationToken: cancellationToken);
-        }
-    }
-
-    public class GetPersonQuery
-    {
-        public int Id { get; set; }
-
-        public GetPersonQuery(int id)
-        {
-            Id = id;
         }
     }
 }

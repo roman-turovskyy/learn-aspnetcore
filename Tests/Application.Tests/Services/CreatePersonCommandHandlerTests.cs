@@ -13,7 +13,7 @@ namespace Application.Tests.Services
             {
                 var handler = new CreatePersonCommandHandler(dbContext);
 
-                var res = await handler.ExecuteAsync(new CreatePersonCommand{
+                var res = await handler.Handle(new CreatePersonCommand{
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Suffix = "Suffix1"

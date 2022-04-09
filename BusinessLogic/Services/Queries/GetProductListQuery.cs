@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
+    public class GetProductListQuery : IQuery<IList<Product>>
+    {
+    }
+
     public class GetProductListQueryHandler : IQueryHandler<GetProductListQuery, IList<Product>>
     {
         private readonly IAppDbContext _dbContext;
@@ -13,13 +17,9 @@ namespace Application.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IList<Product>> ExecuteAsync(GetProductListQuery query, CancellationToken cancellationToken = default)
+        public async Task<IList<Product>> Handle(GetProductListQuery query, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Product.AsNoTracking().Take(100).ToListAsync(cancellationToken);
         }
-    }
-
-    public class GetProductListQuery
-    {
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace Application.Services
+﻿using MediatR;
+
+namespace Application.Services
 {
-    public interface ICommandHandler<in TCommand>
+    public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, CommandResult>
+        where TCommand : IRequest<CommandResult>
     {
-        Task<CommandResult> ExecuteAsync(TCommand command, CancellationToken cancellationToken = default);
     }
 }

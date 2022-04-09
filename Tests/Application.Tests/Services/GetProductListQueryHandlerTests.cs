@@ -14,7 +14,7 @@ namespace Application.Tests.Services
             {
                 var handler = new GetProductListQueryHandler(dbContext);
 
-                var res = await handler.ExecuteAsync(new GetProductListQuery());
+                var res = await handler.Handle(new GetProductListQuery());
 
                 Assert.Empty(res);
             }
@@ -38,7 +38,7 @@ namespace Application.Tests.Services
 
                 var handler = new GetProductListQueryHandler(dbContext);
 
-                var res = await handler.ExecuteAsync(new GetProductListQuery());
+                var res = await handler.Handle(new GetProductListQuery());
 
                 Assert.Equal(1, res.Count);
                 Assert.Equal(Product.ProductId, res[0].ProductId);

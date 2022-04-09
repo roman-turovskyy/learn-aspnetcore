@@ -3,6 +3,13 @@ using DAL.Models;
 
 namespace Application.Services
 {
+    public class CreatePersonCommand : ICommand
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Suffix { get; set; }
+    }
+
     public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
     {
         private readonly AppDbContext _dbContext;
@@ -12,7 +19,7 @@ namespace Application.Services
             _dbContext = dbContext;
         }
 
-        public async Task<CommandResult> ExecuteAsync(CreatePersonCommand command, CancellationToken cancellationToken = default)
+        public async Task<CommandResult> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
         {
             var person = new Person
             {
@@ -29,12 +36,5 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync(cancellationToken);
             return new CommandResult(person.BusinessEntityId);
         }
-    }
-
-    public class CreatePersonCommand
-    {
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Suffix { get; set; }
     }
 }

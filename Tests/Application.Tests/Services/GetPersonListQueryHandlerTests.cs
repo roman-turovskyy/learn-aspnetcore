@@ -14,7 +14,7 @@ namespace Application.Tests.Services
             {
                 var handler = new GetPersonListQueryHandler(dbContext);
 
-                var res = await handler.ExecuteAsync(new GetPersonListQuery());
+                var res = await handler.Handle(new GetPersonListQuery());
 
                 Assert.Empty(res);
             }
@@ -31,7 +31,7 @@ namespace Application.Tests.Services
 
                 var handler = new GetPersonListQueryHandler(dbContext);
 
-                var res = await handler.ExecuteAsync(new GetPersonListQuery());
+                var res = await handler.Handle(new GetPersonListQuery());
 
                 Assert.Equal(1, res.Count);
                 Assert.Equal(person.BusinessEntityId, res[0].BusinessEntityId);

@@ -1,7 +1,9 @@
-﻿namespace Application.Services
+﻿using MediatR;
+
+namespace Application.Services
 {
-    public interface IQueryHandler<in TQuery, TResult>
+    public interface IQueryHandler<in TQuery, TResult> : IRequestHandler<TQuery, TResult>
+        where TQuery : IRequest<TResult>
     {
-        Task<TResult> ExecuteAsync(TQuery query, CancellationToken cancellationToken = default);
     }
 }
