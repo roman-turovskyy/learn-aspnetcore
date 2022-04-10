@@ -11,10 +11,7 @@ namespace ApiEndpoint.Controllers
     {
         private readonly IMediator _mediator;
 
-        public PersonController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public PersonController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet, Route("{id}")]
         public async Task<ActionResult<Person>> GetSingle(int id)
