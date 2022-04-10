@@ -1,8 +1,7 @@
-﻿using Application.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
-namespace Application.Tests.Services
+namespace Example.Application.Tests
 {
     public class CreatePersonCommandHandlerTests
     {
@@ -13,12 +12,13 @@ namespace Application.Tests.Services
             {
                 var handler = new CreatePersonCommandHandler(dbContext);
 
-                var res = await handler.Handle(new CreatePersonCommand{
+                var res = await handler.Handle(new CreatePersonCommand
+                {
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Suffix = "Suffix1"
-                });                
-                
+                });
+
                 var person = await dbContext.Person.FindAsync(res.NewEntityId);
                 Assert.NotNull(person);
             }

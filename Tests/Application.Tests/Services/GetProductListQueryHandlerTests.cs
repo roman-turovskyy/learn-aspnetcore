@@ -1,9 +1,8 @@
-﻿using Application.Services;
-using DAL.Models;
+﻿using DAL.Models;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Application.Tests.Services
+namespace Example.Application.Tests
 {
     public class GetProductListQueryHandlerTests
     {

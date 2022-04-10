@@ -1,7 +1,7 @@
-﻿using DAL;
+﻿using Example.DAL;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.DAL
+namespace Example.Application
 {
     public class AppDbContext : AdventureWorks2019Context, IAppDbContext
     {

@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Decorators
+﻿namespace Example.Application
 {
     public class LoggingQueryHandlerDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult>
         where TQuery : IQuery<TResult>

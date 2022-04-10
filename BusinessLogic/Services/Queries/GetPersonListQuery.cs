@@ -1,8 +1,7 @@
-﻿using Application.DAL;
-using DAL.Models;
+﻿using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Services
+namespace Example.Application
 {
     public class GetPersonListQuery : IQuery<IList<Person>>
     {

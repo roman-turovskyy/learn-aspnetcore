@@ -1,7 +1,6 @@
-﻿using Application.DAL;
-using DAL.Models;
+﻿using DAL.Models;
 
-namespace Application.Services
+namespace Example.Application
 {
     public class CreatePersonCommand : ICommand
     {

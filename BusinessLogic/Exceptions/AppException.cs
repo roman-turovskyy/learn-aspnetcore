@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Application
+namespace Example.Application
 {
     [Serializable]
     internal class AppException : Exception

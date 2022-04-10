@@ -1,4 +1,4 @@
-﻿namespace Application.Services
+﻿namespace Example.Application
 {
     public struct CommandResult
     {

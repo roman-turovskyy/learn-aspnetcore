@@ -1,7 +1,7 @@
 ﻿using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.DAL
+namespace Example.Application
 {
     public interface IAppDbContext
     {

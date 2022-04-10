@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Queries
+﻿namespace Example.Application
 {
     public class TestQuery : IQuery<string>
     {

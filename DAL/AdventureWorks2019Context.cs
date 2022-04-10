@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using DAL.Models;
 
-namespace DAL
+namespace Example.DAL
 {
     public partial class AdventureWorks2019Context : DbContext
     {

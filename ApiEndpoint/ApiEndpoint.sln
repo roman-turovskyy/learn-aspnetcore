@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiEndpoint", "ApiEndpoint.csproj", "{BB2DDEDA-E771-477E-8467-FA9D40751AB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.ApiEndpoint", "Example.ApiEndpoint.csproj", "{BB2DDEDA-E771-477E-8467-FA9D40751AB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "..\BusinessLogic\Application.csproj", "{B3770BD7-1991-456A-9ACB-046DF3518106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Application", "..\BusinessLogic\Example.Application.csproj", "{B3770BD7-1991-456A-9ACB-046DF3518106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "..\DAL\DAL.csproj", "{A996626F-C13C-4BA8-AAA5-69548DF68EF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.DAL", "..\DAL\Example.DAL.csproj", "{A996626F-C13C-4BA8-AAA5-69548DF68EF2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D5016930-886F-4212-BB08-040169630CA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tests", "..\Tests\Application.Tests\Application.Tests.csproj", "{604C04F2-B230-4416-8041-5E27332E5B46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Application.Tests", "..\Tests\Application.Tests\Example.Application.Tests.csproj", "{604C04F2-B230-4416-8041-5E27332E5B46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,8 @@
-﻿using Application.DAL;
-using DAL;
+﻿using Example.DAL;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Application.Tests
+namespace Example.Application.Tests
 {
     internal static class TestDbContext
     {

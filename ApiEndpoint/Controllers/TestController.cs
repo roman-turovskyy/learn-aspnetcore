@@ -1,5 +1,4 @@
-﻿using Application.Services.Commands;
-using Application.Services.Queries;
+﻿using Example.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

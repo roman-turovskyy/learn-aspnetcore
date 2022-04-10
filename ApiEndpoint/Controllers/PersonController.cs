@@ -1,5 +1,5 @@
-using Application.Services;
 using DAL.Models;
+using Example.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

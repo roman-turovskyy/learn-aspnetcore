@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Commands
+﻿namespace Example.Application
 {
     public class TestCommand : ICommand
     {
