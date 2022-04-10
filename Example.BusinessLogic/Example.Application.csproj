@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\Example.DAL.csproj" />
+    <ProjectReference Include="..\Example.DAL\Example.DAL.csproj" />
   </ItemGroup>
 
 </Project>

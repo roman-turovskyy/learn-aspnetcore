@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "ApiEndpoint": {
+    "Example.ApiEndpoint": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
