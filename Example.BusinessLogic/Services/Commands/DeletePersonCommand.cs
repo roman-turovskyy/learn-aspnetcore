@@ -2,25 +2,22 @@
 
 namespace Example.Application
 {
-    public class UpdatePersonCommand : ICommand, ICommandWithId<int>
+    public class DeletePersonCommand : ICommand, ICommandWithId<int>
     {
         public int Id { get; set;}
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string? Suffix { get; set; }
         public byte[] RowVersion { get; set; } = null!;
     }
 
-    public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand>
+    public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
     {
         private readonly AppDbContext _dbContext;
 
-        public UpdatePersonCommandHandler(AppDbContext dbContext)
+        public DeletePersonCommandHandler(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<CommandResult> Handle(UpdatePersonCommand command, CancellationToken cancellationToken = default)
+        public async Task<CommandResult> Handle(DeletePersonCommand command, CancellationToken cancellationToken = default)
         {
             Person? existing = await _dbContext.Person.FindAsync(new object?[] { command.Id }, cancellationToken: cancellationToken);
             if (existing == null)
@@ -28,13 +25,10 @@ namespace Example.Application
 
             _dbContext.Entry(existing).Property(e => e.RowVersion).OriginalValue = command.RowVersion;
 
-            existing.FirstName = command.FirstName;
-            existing.LastName = command.LastName;
-            existing.Suffix = command.Suffix;
-
+            _dbContext.Person.Remove(existing);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new CommandResult(existing.BusinessEntityId);
+            return new CommandResult(-1); // TODO: what to return?
         }
     }
 }

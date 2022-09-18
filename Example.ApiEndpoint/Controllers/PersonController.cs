@@ -2,6 +2,7 @@ using Example.DAL.Models;
 using Example.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Example.ApiEndpoint.Extensions;
 
 namespace ApiEndpoint.Controllers
 {
@@ -29,16 +30,26 @@ namespace ApiEndpoint.Controllers
             return await _mediator.Send(new GetPersonListQuery());
         }
 
-        [HttpPost, Route("{id}")]
-        public async Task<CommandResult> Create(CreatePersonCommand createPerson)
+        [HttpPost]
+        public async Task<CommandResult> Create(CreatePersonCommand cmd)
         {
-            return await _mediator.Send(createPerson);
+            return await _mediator.Send(cmd);
         }
 
         [HttpPut, Route("{id}")]
-        public async Task<CommandResult> Update([FromRoute]int id, [FromBody]UpdatePersonCommand updatePerson)
+        public async Task<CommandResult> Update(int id, UpdatePersonCommand cmd)
         {
-            return await _mediator.Send(updatePerson);
+            cmd.FetchIdFromRoute(id);
+
+            return await _mediator.Send(cmd);
+        }
+
+        [HttpDelete, Route("{id}")]
+        public async Task<CommandResult> Delete(int id, DeletePersonCommand cmd)
+        {
+            cmd.FetchIdFromRoute(id);
+
+            return await _mediator.Send(cmd);
         }
     }
 }
