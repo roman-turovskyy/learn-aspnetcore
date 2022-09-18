@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Models
+namespace Example.DAL.Models
 {
     /// <summary>
     /// Displays the content from each element in the xml column Demographics for each customer in the Person.Person table.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Models
+namespace Example.DAL.Models
 {
     /// <summary>
     /// Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts.

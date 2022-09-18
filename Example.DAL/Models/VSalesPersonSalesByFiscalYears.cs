@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Models
+namespace Example.DAL.Models
 {
     /// <summary>
     /// Uses PIVOT to return aggregated sales information for each sales representative.

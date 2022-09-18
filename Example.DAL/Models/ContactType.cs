@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Models
+namespace Example.DAL.Models
 {
     /// <summary>
     /// Lookup table containing the types of business entity contacts.

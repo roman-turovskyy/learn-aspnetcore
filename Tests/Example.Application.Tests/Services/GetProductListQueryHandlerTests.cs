@@ -1,4 +1,4 @@
-﻿using DAL.Models;
+﻿using Example.DAL.Models;
 using System.Threading.Tasks;
 using Xunit;
 

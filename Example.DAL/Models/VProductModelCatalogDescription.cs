@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Models
+namespace Example.DAL.Models
 {
     /// <summary>
     /// Displays the content from each element in the xml column CatalogDescription for each product in the Production.ProductModel table that has catalog data.

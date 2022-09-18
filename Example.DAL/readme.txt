@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=DESKTOP-BP8PCOI;Database=AdventureWorks2019;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Project Example.DAL -StartupProject Example.DAL -NoPluralize -ContextDir ./ -Force
