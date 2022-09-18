@@ -1221,6 +1221,10 @@ namespace Example.DAL
                     .IsFixedLength()
                     .HasComment("Primary type of person: SC = Store Contact, IN = Individual (retail) customer, SP = Sales person, EM = Employee (non-sales), VC = Vendor contact, GC = General contact");
 
+                entity.Property(e => e.RowVersion)
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
+
                 entity.Property(e => e.Rowguid)
                     .HasColumnName("rowguid")
                     .HasDefaultValueSql("(newid())")

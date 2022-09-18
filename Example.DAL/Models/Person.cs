@@ -69,6 +69,7 @@ namespace Example.DAL.Models
         /// Date and time the record was last updated.
         /// </summary>
         public DateTime ModifiedDate { get; set; }
+        public byte[] RowVersion { get; set; } = null!;
 
         public virtual BusinessEntity BusinessEntity { get; set; } = null!;
         public virtual Employee Employee { get; set; } = null!;

@@ -19,6 +19,7 @@ namespace ApiEndpoint.Controllers
             var res = await _mediator.Send(new GetPersonQuery(id));
             if (res == null)
                 return NotFound($"Person {id} does not exist.");
+
             return res;
         }
 
@@ -28,11 +29,16 @@ namespace ApiEndpoint.Controllers
             return await _mediator.Send(new GetPersonListQuery());
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create(CreatePersonCommand createPerson)
+        [HttpPost, Route("{id}")]
+        public async Task<CommandResult> Create(CreatePersonCommand createPerson)
         {
-            await _mediator.Send(createPerson);
-            return Ok();
+            return await _mediator.Send(createPerson);
+        }
+
+        [HttpPut, Route("{id}")]
+        public async Task<CommandResult> Update([FromRoute]int id, [FromBody]UpdatePersonCommand updatePerson)
+        {
+            return await _mediator.Send(updatePerson);
         }
     }
 }

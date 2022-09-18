@@ -15,9 +15,9 @@ namespace Example.Application.Tests
                 dbContext.Person.Add(person);
                 await dbContext.SaveChangesAsync();
 
-                var handler = new GetPersonQueryHandler(dbContext);
+                GetPersonQueryHandler handler = new GetPersonQueryHandler(dbContext);
 
-                var res = await handler.Handle(new GetPersonQuery(person.BusinessEntityId));
+                Person? res = await handler.Handle(new GetPersonQuery(person.BusinessEntityId));
 
                 Assert.NotNull(res);
                 Assert.Equal(person.BusinessEntityId, res.BusinessEntityId);
