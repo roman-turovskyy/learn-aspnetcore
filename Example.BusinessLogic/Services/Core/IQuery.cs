@@ -1,8 +1,7 @@
 ﻿using MediatR;
 
-namespace Example.Application
+namespace Example.Application;
+
+public interface IQuery<TResponse> : IRequest<TResponse>
 {
-    public interface IQuery<TResponse> : IRequest<TResponse>
-    {
-    }
 }

@@ -1,7 +1,6 @@
-﻿namespace Example.Application
+﻿namespace Example.Application;
+
+public interface ICommandWithId<T>
 {
-    public interface ICommandWithId<T>
-    {
-        T Id { get; set; }
-    }
+    T Id { get; set; }
 }

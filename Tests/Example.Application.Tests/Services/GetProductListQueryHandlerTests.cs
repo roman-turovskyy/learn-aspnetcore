@@ -2,46 +2,45 @@
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Example.Application.Tests
+namespace Example.Application.Tests;
+
+public class GetProductListQueryHandlerTests
 {
-    public class GetProductListQueryHandlerTests
+    [Fact]
+    public async Task EmptyDatabase_EmptyResult_Test()
     {
-        [Fact]
-        public async Task EmptyDatabase_EmptyResult_Test()
+        using (var dbContext = TestDbContext.Create())
         {
-            using (var dbContext = TestDbContext.Create())
-            {
-                var handler = new GetProductListQueryHandler(dbContext);
+            var handler = new GetProductListQueryHandler(dbContext);
 
-                var res = await handler.Handle(new GetProductListQuery());
+            var res = await handler.Handle(new GetProductListQuery());
 
-                Assert.Empty(res);
-            }
+            Assert.Empty(res);
         }
+    }
 
-        [Fact]
-        public async Task DataBaseWithSingleProduct_ThatProductIsReturned_Test()
+    [Fact]
+    public async Task DataBaseWithSingleProduct_ThatProductIsReturned_Test()
+    {
+        using (var dbContext = TestDbContext.Create())
         {
-            using (var dbContext = TestDbContext.Create())
+            var Product = new Product()
             {
-                var Product = new Product()
-                {
-                    ProductId = 1,
-                    Name = "Name1",
-                    FinishedGoodsFlag = false,
-                    MakeFlag = false,
-                    ProductNumber = "ProductNumber1"
-                };
-                dbContext.Product.Add(Product);
-                await dbContext.SaveChangesAsync();
+                ProductId = 1,
+                Name = "Name1",
+                FinishedGoodsFlag = false,
+                MakeFlag = false,
+                ProductNumber = "ProductNumber1"
+            };
+            dbContext.Product.Add(Product);
+            await dbContext.SaveChangesAsync();
 
-                var handler = new GetProductListQueryHandler(dbContext);
+            var handler = new GetProductListQueryHandler(dbContext);
 
-                var res = await handler.Handle(new GetProductListQuery());
+            var res = await handler.Handle(new GetProductListQuery());
 
-                Assert.Equal(1, res.Count);
-                Assert.Equal(Product.ProductId, res[0].ProductId);
-            }
+            Assert.Equal(1, res.Count);
+            Assert.Equal(Product.ProductId, res[0].ProductId);
         }
     }
 }

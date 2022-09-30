@@ -1,8 +1,7 @@
 ﻿using MediatR;
 
-namespace Example.Application
+namespace Example.Application;
+
+public interface ICommand : IRequest<CommandResult>
 {
-    public interface ICommand : IRequest<CommandResult>
-    {
-    }
 }

@@ -1,24 +1,23 @@
 ﻿using Example.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Example.Application
+namespace Example.Application;
+
+public class GetProductListQuery : IQuery<IList<Product>>
 {
-    public class GetProductListQuery : IQuery<IList<Product>>
+}
+
+public class GetProductListQueryHandler : IQueryHandler<GetProductListQuery, IList<Product>>
+{
+    private readonly IAppDbContext _dbContext;
+
+    public GetProductListQueryHandler(IAppDbContext dbContext)
     {
+        _dbContext = dbContext;
     }
 
-    public class GetProductListQueryHandler : IQueryHandler<GetProductListQuery, IList<Product>>
+    public async Task<IList<Product>> Handle(GetProductListQuery query, CancellationToken cancellationToken = default)
     {
-        private readonly IAppDbContext _dbContext;
-
-        public GetProductListQueryHandler(IAppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public async Task<IList<Product>> Handle(GetProductListQuery query, CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.Product.AsNoTracking().Take(100).ToListAsync(cancellationToken);
-        }
+        return await _dbContext.Product.AsNoTracking().Take(100).ToListAsync(cancellationToken);
     }
 }

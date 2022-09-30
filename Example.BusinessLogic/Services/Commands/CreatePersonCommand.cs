@@ -1,39 +1,38 @@
 ﻿using Example.DAL.Models;
 
-namespace Example.Application
+namespace Example.Application;
+
+public record CreatePersonCommand : ICommand
 {
-    public class CreatePersonCommand : ICommand
+    public string FirstName { get; init; } = null!;
+    public string LastName { get; init; } = null!;
+    public string? Suffix { get; init; }
+}
+
+public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
+{
+    private readonly AppDbContext _dbContext;
+
+    public CreatePersonCommandHandler(AppDbContext dbContext)
     {
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string? Suffix { get; set; }
+        _dbContext = dbContext;
     }
 
-    public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
+    public async Task<CommandResult> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
     {
-        private readonly AppDbContext _dbContext;
-
-        public CreatePersonCommandHandler(AppDbContext dbContext)
+        var person = new Person
         {
-            _dbContext = dbContext;
-        }
-
-        public async Task<CommandResult> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
-        {
-            var person = new Person
-            {
-                BusinessEntity = new BusinessEntity {
-                    Rowguid = Guid.NewGuid()
-                },
-                // TODO: validation
-                FirstName = command.FirstName,
-                LastName = command.LastName,
-                Suffix = command.Suffix,
-                PersonType = "EM"
-            };
-            _dbContext.Person.Add(person);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return new CommandResult(person.BusinessEntityId);
-        }
+            BusinessEntity = new BusinessEntity {
+                Rowguid = Guid.NewGuid()
+            },
+            // TODO: validation
+            FirstName = command.FirstName,
+            LastName = command.LastName,
+            Suffix = command.Suffix,
+            PersonType = "EM"
+        };
+        _dbContext.Person.Add(person);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return new CommandResult(person.BusinessEntityId);
     }
 }

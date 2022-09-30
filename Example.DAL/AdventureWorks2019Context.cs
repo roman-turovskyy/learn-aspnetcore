@@ -116,6 +116,7 @@ namespace Example.DAL
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-BP8PCOI;Database=AdventureWorks2019;Trusted_Connection=True;");
+                optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
             }
         }
 
@@ -1212,6 +1213,7 @@ namespace Example.DAL
                 entity.Property(e => e.ModifiedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())")
+                    //.IsConcurrencyToken()
                     .HasComment("Date and time the record was last updated.");
 
                 entity.Property(e => e.NameStyle).HasComment("0 = The data in FirstName and LastName are stored in western style (first name, last name) order.  1 = Eastern style (last name, first name) order.");

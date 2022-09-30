@@ -1,34 +1,32 @@
 ﻿using Example.DAL.Models;
 
-namespace Example.Application
+namespace Example.Application;
+
+public record DeletePersonCommand : ICommand, ICommandWithId<int>
 {
-    public class DeletePersonCommand : ICommand, ICommandWithId<int>
+    public int Id { get; set; }
+    public byte[] RowVersion { get; init; } = null!;
+}
+
+public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
+{
+    private readonly AppDbContext _dbContext;
+
+    public DeletePersonCommandHandler(AppDbContext dbContext)
     {
-        public int Id { get; set;}
-        public byte[] RowVersion { get; set; } = null!;
+        _dbContext = dbContext;
     }
 
-    public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
+    public async Task<CommandResult> Handle(DeletePersonCommand command, CancellationToken cancellationToken = default)
     {
-        private readonly AppDbContext _dbContext;
+        Person? existing = await _dbContext.Person.FindAsync(new object?[] { command.Id }, cancellationToken: cancellationToken);
+        if (existing == null)
+            throw new AppException($"Person with Id {command.Id} does not exist.");
 
-        public DeletePersonCommandHandler(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        _dbContext.Entry(existing).Property(e => e.RowVersion).OriginalValue = command.RowVersion;
+        _dbContext.Person.Remove(existing);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
-        public async Task<CommandResult> Handle(DeletePersonCommand command, CancellationToken cancellationToken = default)
-        {
-            Person? existing = await _dbContext.Person.FindAsync(new object?[] { command.Id }, cancellationToken: cancellationToken);
-            if (existing == null)
-                throw new AppException($"Person with Id {command.Id} does not exist.");
-
-            _dbContext.Entry(existing).Property(e => e.RowVersion).OriginalValue = command.RowVersion;
-
-            _dbContext.Person.Remove(existing);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return new CommandResult(-1); // TODO: what to return?
-        }
+        return new CommandResult(-1); // TODO: what to return?
     }
 }

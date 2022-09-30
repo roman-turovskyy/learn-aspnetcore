@@ -1,15 +1,14 @@
-﻿namespace Example.Application
-{
-    public class TestCommand : ICommand
-    {
-        public int Id { get; set; }
-    }
+﻿namespace Example.Application;
 
-    public class TestCommandHandler : ICommandHandler<TestCommand>
+public record TestCommand : ICommand
+{
+    public int Id { get; init; }
+}
+
+public class TestCommandHandler : ICommandHandler<TestCommand>
+{
+    public Task<CommandResult> Handle(TestCommand request, CancellationToken cancellationToken)
     {
-        public Task<CommandResult> Handle(TestCommand request, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(new CommandResult(request.Id));
-        }
+        return Task.FromResult(new CommandResult(request.Id));
     }
 }

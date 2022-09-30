@@ -1,24 +1,23 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Example.Application
+namespace Example.Application;
+
+[Serializable]
+internal class AppException : Exception
 {
-    [Serializable]
-    internal class AppException : Exception
+    public AppException()
     {
-        public AppException()
-        {
-        }
+    }
 
-        public AppException(string? message) : base(message)
-        {
-        }
+    public AppException(string? message) : base(message)
+    {
+    }
 
-        public AppException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
+    public AppException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 
-        protected AppException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected AppException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

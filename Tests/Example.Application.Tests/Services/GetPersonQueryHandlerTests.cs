@@ -2,39 +2,38 @@
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Example.Application.Tests
+namespace Example.Application.Tests;
+
+public class GetPersonQueryHandlerTests
 {
-    public class GetPersonQueryHandlerTests
+    [Fact]
+    public async Task ExistingPerson_PersonReturned_Test()
     {
-        [Fact]
-        public async Task ExistingPerson_PersonReturned_Test()
+        using (var dbContext = TestDbContext.Create())
         {
-            using (var dbContext = TestDbContext.Create())
-            {
-                var person = new Person() { BusinessEntityId = 1, FirstName = "FirstName1", LastName = "LastName1", PersonType = "PersonType1" };
-                dbContext.Person.Add(person);
-                await dbContext.SaveChangesAsync();
+            var person = new Person() { BusinessEntityId = 1, FirstName = "FirstName1", LastName = "LastName1", PersonType = "PersonType1" };
+            dbContext.Person.Add(person);
+            await dbContext.SaveChangesAsync();
 
-                GetPersonQueryHandler handler = new GetPersonQueryHandler(dbContext);
+            GetPersonQueryHandler handler = new GetPersonQueryHandler(dbContext);
 
-                Person? res = await handler.Handle(new GetPersonQuery(person.BusinessEntityId));
+            Person? res = await handler.Handle(new GetPersonQuery(person.BusinessEntityId));
 
-                Assert.NotNull(res);
-                Assert.Equal(person.BusinessEntityId, res.BusinessEntityId);
-            }
+            Assert.NotNull(res);
+            Assert.Equal(person.BusinessEntityId, res.BusinessEntityId);
         }
+    }
 
-        [Fact]
-        public async Task NonExistingPerson_NullIsReturned_Test()
+    [Fact]
+    public async Task NonExistingPerson_NullIsReturned_Test()
+    {
+        using (var dbContext = TestDbContext.Create())
         {
-            using (var dbContext = TestDbContext.Create())
-            {
-                var handler = new GetPersonQueryHandler(dbContext);
+            var handler = new GetPersonQueryHandler(dbContext);
 
-                var res = await handler.Handle(new GetPersonQuery(1));
+            var res = await handler.Handle(new GetPersonQuery(1));
 
-                Assert.Null(res);
-            }
+            Assert.Null(res);
         }
     }
 }

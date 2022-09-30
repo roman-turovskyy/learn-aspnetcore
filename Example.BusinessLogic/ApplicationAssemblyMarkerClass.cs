@@ -1,6 +1,5 @@
-﻿namespace Example.Application
+﻿namespace Example.Application;
+
+public class ApplicationAssemblyMarkerClass
 {
-    public class ApplicationAssemblyMarkerClass
-    {
-    }
 }
