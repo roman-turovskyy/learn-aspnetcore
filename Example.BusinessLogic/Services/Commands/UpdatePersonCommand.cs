@@ -1,4 +1,4 @@
-﻿using Example.DAL.Models;
+﻿using Example.Domain.Entities;
 
 namespace Example.Application;
 
@@ -28,12 +28,9 @@ public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, C
             throw new AppException($"Person with Id {command.Id} does not exist.");
 
         _dbContext.Entry(existing).Property(e => e.RowVersion).OriginalValue = command.RowVersion;
-        //_dbContext.Entry(existing).Property(e => e.ModifiedDate).OriginalValue = command.ModifiedDate;
-        _dbContext.Entry(existing).Property(e => e.ModifiedDate).OriginalValue = DateTime.Parse("2022-08-18T13:55:11.887");
 
         existing.FirstName = command.FirstName;
         existing.LastName = command.LastName;
-        existing.Suffix = command.Suffix;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

@@ -1,4 +1,4 @@
-﻿using Example.DAL.Models;
+﻿using Example.Domain.Entities;
 
 namespace Example.Application;
 

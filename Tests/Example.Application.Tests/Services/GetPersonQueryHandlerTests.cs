@@ -1,4 +1,4 @@
-﻿using Example.DAL.Models;
+﻿using Example.Domain.Entities;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -12,16 +12,16 @@ public class GetPersonQueryHandlerTests
     {
         using (var dbContext = TestDbContext.Create())
         {
-            var person = new Person() { BusinessEntityId = 1, FirstName = "FirstName1", LastName = "LastName1", PersonType = "PersonType1", RowVersion = Array.Empty<byte>() };
+            var person = new Person() { PersonId = Guid.NewGuid(), FirstName = "FirstName1", LastName = "LastName1", RowVersion = Array.Empty<byte>() };
             dbContext.Person.Add(person);
             await dbContext.SaveChangesAsync();
 
             GetPersonQueryHandler handler = new GetPersonQueryHandler(dbContext);
 
-            Person? res = await handler.Handle(new GetPersonQuery(person.BusinessEntityId));
+            Person? res = await handler.Handle(new GetPersonQuery(person.PersonId));
 
             Assert.NotNull(res);
-            Assert.Equal(person.BusinessEntityId, res.BusinessEntityId);
+            Assert.Equal(person.PersonId, res.PersonId);
         }
     }
 
@@ -32,7 +32,7 @@ public class GetPersonQueryHandlerTests
         {
             var handler = new GetPersonQueryHandler(dbContext);
 
-            var res = await handler.Handle(new GetPersonQuery(1));
+            var res = await handler.Handle(new GetPersonQuery(Guid.NewGuid()));
 
             Assert.Null(res);
         }

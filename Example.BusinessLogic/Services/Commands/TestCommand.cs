@@ -2,7 +2,7 @@
 
 public record TestCommand : ICommand<CommandResultWithId>
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class TestCommandHandler : ICommandHandler<TestCommand, CommandResultWithId>

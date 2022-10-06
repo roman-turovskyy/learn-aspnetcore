@@ -13,7 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D5016930
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Application.Tests", "Tests\Example.Application.Tests\Example.Application.Tests.csproj", "{604C04F2-B230-4416-8041-5E27332E5B46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Common", "Example.Common\Example.Common.csproj", "{C4436D02-7978-4C64-8561-9A1AE6054A1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Common", "Example.Common\Example.Common.csproj", "{C4436D02-7978-4C64-8561-9A1AE6054A1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Domain", "Example.Domain\Example.Domain.csproj", "{BA343283-78C1-45BF-AE81-55AFB055AA91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EF59FA9B-9E3A-496E-9D15-AA6328AF4D9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.MigrateDatabase", "Example.MigrateDatabase\Example.MigrateDatabase.csproj", "{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,12 +47,21 @@ Global
 		{C4436D02-7978-4C64-8561-9A1AE6054A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4436D02-7978-4C64-8561-9A1AE6054A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4436D02-7978-4C64-8561-9A1AE6054A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA343283-78C1-45BF-AE81-55AFB055AA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA343283-78C1-45BF-AE81-55AFB055AA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA343283-78C1-45BF-AE81-55AFB055AA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA343283-78C1-45BF-AE81-55AFB055AA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{604C04F2-B230-4416-8041-5E27332E5B46} = {D5016930-886F-4212-BB08-040169630CA8}
+		{F321B622-B5F3-4DA5-87DB-C81384EDBDE3} = {EF59FA9B-9E3A-496E-9D15-AA6328AF4D9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F10D7293-151E-433D-9D33-14BCFE66B9B0}

@@ -19,7 +19,7 @@ public class TestController : ControllerBase
     }
 
     [HttpPost, Route("Command")]
-    public async Task<int?> GetSingle(TestCommand command)
+    public async Task<Guid?> GetSingle(TestCommand command)
     {
         var res = await _mediator.Send(command);
         return res.NewEntityId;

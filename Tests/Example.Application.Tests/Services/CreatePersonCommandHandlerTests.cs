@@ -15,8 +15,7 @@ public class CreatePersonCommandHandlerTests
             var res = await handler.Handle(new CreatePersonCommand
             {
                 FirstName = "FirstName1",
-                LastName = "LastName1",
-                Suffix = "Suffix1"
+                LastName = "LastName1"
             });
 
             var person = await dbContext.Person.FindAsync(res.NewEntityId);

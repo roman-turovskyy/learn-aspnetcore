@@ -1,8 +1,8 @@
-using Example.DAL.Models;
 using Example.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.ApiEndpoint.Extensions;
+using Example.Domain.Entities;
 
 namespace ApiEndpoint.Controllers;
 
@@ -15,7 +15,7 @@ public class PersonController : ControllerBase
     public PersonController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet, Route("{id}")]
-    public async Task<ActionResult<Person>> GetSingle(int id)
+    public async Task<ActionResult<Person>> GetSingle(Guid id)
     {
         var res = await _mediator.Send(new GetPersonQuery(id));
         if (res == null)

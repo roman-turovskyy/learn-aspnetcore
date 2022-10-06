@@ -1,12 +1,12 @@
-﻿using Example.DAL.Models;
+﻿using Example.Domain.Entities;
 
 namespace Example.Application;
 
 public class GetPersonQuery : IQuery<Person?>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public GetPersonQuery(int id)
+    public GetPersonQuery(Guid id)
     {
         Id = id;
     }

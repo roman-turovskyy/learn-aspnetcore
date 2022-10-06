@@ -2,4 +2,4 @@
 
 public record CommandResult;
 
-public record CommandResultWithId(int NewEntityId) : CommandResult;
+public record CommandResultWithId(Guid NewEntityId) : CommandResult;

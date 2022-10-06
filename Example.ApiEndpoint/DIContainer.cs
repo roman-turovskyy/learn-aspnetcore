@@ -8,14 +8,14 @@ public static class DIContainer
 {
     public static void Configure(IServiceCollection services)
     {
-        string? connStr = Environment.GetEnvironmentVariable("AdventureWorks2019ConnStr");
+        string? connStr = Environment.GetEnvironmentVariable("ExampleDbConnStr");
         if (connStr == null)
-            throw new Exception("Environment variable AdventureWorks2019ConnStr is not defined.");
+            throw new Exception("Environment variable ExampleDbConnStr is not defined.");
 
         services.AddTransient<IMessageBus, MessageBus>();
         ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-        services.AddScoped<AppDbContext>((sp) =>
+        services.AddScoped((sp) =>
         {
             var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
                                 .UseSqlServer(connStr)

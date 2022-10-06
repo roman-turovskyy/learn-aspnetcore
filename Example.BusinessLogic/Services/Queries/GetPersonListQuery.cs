@@ -1,4 +1,4 @@
-﻿using Example.DAL.Models;
+﻿using Example.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Example.Application;
@@ -9,7 +9,7 @@ public class GetPersonListQuery : IQuery<IList<Person>>
 
 public class GetPersonListQueryHandler : IQueryHandler<GetPersonListQuery, IList<Person>>
 {
-    private readonly IAppDbContext _dbContext;
+    private readonly AppDbContext _dbContext;
 
     public GetPersonListQueryHandler(AppDbContext dbContext)
     {
