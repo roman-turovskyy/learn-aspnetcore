@@ -1,4 +1,5 @@
 ﻿using Example.DAL.Models;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -11,7 +12,7 @@ public class GetPersonQueryHandlerTests
     {
         using (var dbContext = TestDbContext.Create())
         {
-            var person = new Person() { BusinessEntityId = 1, FirstName = "FirstName1", LastName = "LastName1", PersonType = "PersonType1" };
+            var person = new Person() { BusinessEntityId = 1, FirstName = "FirstName1", LastName = "LastName1", PersonType = "PersonType1", RowVersion = Array.Empty<byte>() };
             dbContext.Person.Add(person);
             await dbContext.SaveChangesAsync();
 

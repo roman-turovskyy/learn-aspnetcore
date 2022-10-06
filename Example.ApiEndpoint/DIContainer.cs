@@ -1,4 +1,6 @@
 ﻿using Example.Application;
+using Example.Common.Database;
+using Example.Common.Messaging;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +12,18 @@ public static class DIContainer
         if (connStr == null)
             throw new Exception("Environment variable AdventureWorks2019ConnStr is not defined.");
 
-        services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(connStr));
-        services.AddScoped<IAppDbContext, AppDbContext>();
+        services.AddTransient<IMessageBus, MessageBus>();
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+        services.AddScoped<AppDbContext>((sp) =>
+        {
+            var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+                                .UseSqlServer(connStr)
+                                .UseAudit(serviceProvider)
+                                .Options;
+            return new AppDbContext(contextOptions);
+        });
+
         services.AddMediatR(typeof(ApplicationAssemblyMarkerClass));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
     }

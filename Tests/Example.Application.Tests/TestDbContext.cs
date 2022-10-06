@@ -1,4 +1,5 @@
-﻿using Example.DAL;
+﻿using Example.Common.Database;
+using Example.Common.Messaging;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -8,8 +9,9 @@ internal static class TestDbContext
 {
     public static AppDbContext Create()
     {
-        var options = new DbContextOptionsBuilder<AdventureWorks2019Context>()
+        var options = new DbContextOptionsBuilder<AppDbContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+           .UseAudit(new Moq.Mock<IMessageBus>().Object)
            .Options;
 
         var context = new AppDbContext(options);

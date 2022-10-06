@@ -29,9 +29,11 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
             FirstName = command.FirstName,
             LastName = command.LastName,
             Suffix = command.Suffix,
-            PersonType = "EM"
+            PersonType = "EM",
+            RowVersion = Array.Empty<byte>() // otherwise InMemoryDatabase fails during testing
         };
         _dbContext.Person.Add(person);
+        await _dbContext.SaveChangesAsync(cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         return new CommandResultWithId(person.BusinessEntityId);
     }

@@ -11,7 +11,7 @@ public class GetPersonListQueryHandler : IQueryHandler<GetPersonListQuery, IList
 {
     private readonly IAppDbContext _dbContext;
 
-    public GetPersonListQueryHandler(IAppDbContext dbContext)
+    public GetPersonListQueryHandler(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }

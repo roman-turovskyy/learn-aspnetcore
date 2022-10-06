@@ -9,7 +9,7 @@ public class AppDbContext : AdventureWorks2019Context, IAppDbContext
     {
     }
 
-    public AppDbContext(DbContextOptions<AdventureWorks2019Context> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 }

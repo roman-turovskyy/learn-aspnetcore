@@ -11,7 +11,7 @@ public class GetProductListQueryHandler : IQueryHandler<GetProductListQuery, ILi
 {
     private readonly IAppDbContext _dbContext;
 
-    public GetProductListQueryHandler(IAppDbContext dbContext)
+    public GetProductListQueryHandler(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }

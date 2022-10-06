@@ -14,4 +14,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Example.Common\Example.Common.csproj" />
+  </ItemGroup>
+
 </Project>
