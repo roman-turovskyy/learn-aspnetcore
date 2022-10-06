@@ -2,7 +2,7 @@
 
 namespace Example.Application;
 
-public class UpdatePersonCommand : ICommand, ICommandWithId<int>
+public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<int>
 {
     public int Id { get; set;}
     public string FirstName { get; init; } = null!;
@@ -12,7 +12,7 @@ public class UpdatePersonCommand : ICommand, ICommandWithId<int>
     public byte[] RowVersion { get; init; } = null!;
 }
 
-public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand>
+public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, CommandResult>
 {
     private readonly AppDbContext _dbContext;
 
@@ -37,6 +37,6 @@ public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand>
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return new CommandResult(existing.BusinessEntityId);
+        return new CommandResult();
     }
 }

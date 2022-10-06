@@ -2,14 +2,14 @@
 
 namespace Example.Application;
 
-public record CreatePersonCommand : ICommand
+public record CreatePersonCommand : ICommand<CommandResultWithId>
 {
     public string FirstName { get; init; } = null!;
     public string LastName { get; init; } = null!;
     public string? Suffix { get; init; }
 }
 
-public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
+public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, CommandResultWithId>
 {
     private readonly AppDbContext _dbContext;
 
@@ -18,7 +18,7 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
         _dbContext = dbContext;
     }
 
-    public async Task<CommandResult> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
+    public async Task<CommandResultWithId> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
     {
         var person = new Person
         {
@@ -33,6 +33,6 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
         };
         _dbContext.Person.Add(person);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return new CommandResult(person.BusinessEntityId);
+        return new CommandResultWithId(person.BusinessEntityId);
     }
 }

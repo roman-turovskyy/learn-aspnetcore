@@ -1,11 +1,5 @@
 ﻿namespace Example.Application;
 
-public struct CommandResult
-{
-    public int? NewEntityId { get; private set; }
+public record CommandResult;
 
-    public CommandResult(int newEntityId)
-    {
-        NewEntityId = newEntityId;
-    }
-}
+public record CommandResultWithId(int NewEntityId) : CommandResult;

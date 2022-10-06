@@ -2,6 +2,6 @@
 
 namespace Example.Application;
 
-public interface ICommand : IRequest<CommandResult>
+public interface ICommand<out TResult> : IRequest<TResult>
 {
 }

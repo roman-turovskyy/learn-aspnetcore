@@ -2,13 +2,13 @@
 
 namespace Example.Application;
 
-public record DeletePersonCommand : ICommand, ICommandWithId<int>
+public record DeletePersonCommand : ICommand<CommandResult>, ICommandWithId<int>
 {
     public int Id { get; set; }
     public byte[] RowVersion { get; init; } = null!;
 }
 
-public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
+public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand, CommandResult>
 {
     private readonly AppDbContext _dbContext;
 
@@ -27,6 +27,6 @@ public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
         _dbContext.Person.Remove(existing);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return new CommandResult(-1); // TODO: what to return?
+        return new CommandResult();
     }
 }
