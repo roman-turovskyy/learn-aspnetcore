@@ -37,7 +37,7 @@ public class PersonController : ControllerBase
     }
 
     [HttpPut, Route("{id}")]
-    public async Task<CommandResult> Update(int id, UpdatePersonCommand cmd)
+    public async Task<CommandResult> Update(Guid id, UpdatePersonCommand cmd)
     {
         cmd.FetchIdFromRoute(id);
 
@@ -45,7 +45,7 @@ public class PersonController : ControllerBase
     }
 
     [HttpDelete, Route("{id}")]
-    public async Task<CommandResult> Delete(int id, DeletePersonCommand cmd)
+    public async Task<CommandResult> Delete(Guid id, DeletePersonCommand cmd)
     {
         cmd.FetchIdFromRoute(id);
 

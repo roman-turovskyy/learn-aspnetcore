@@ -2,9 +2,9 @@
 
 namespace Example.Application;
 
-public record DeletePersonCommand : ICommand<CommandResult>, ICommandWithId<int>
+public record DeletePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public byte[] RowVersion { get; init; } = null!;
 }
 

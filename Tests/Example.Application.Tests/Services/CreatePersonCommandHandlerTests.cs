@@ -1,14 +1,11 @@
-﻿using System.Threading.Tasks;
-using Xunit;
-
-namespace Example.Application.Tests;
+﻿namespace Example.Application.Tests;
 
 public class CreatePersonCommandHandlerTests
 {
     [Fact]
     public async Task ValidCreatePersonCommand_PersonCreated_Test()
     {
-        using (var dbContext = TestDbContext.Create())
+        using (AppDbContext dbContext = TestDbContext.Create())
         {
             var handler = new CreatePersonCommandHandler(dbContext);
 

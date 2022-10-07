@@ -1,6 +1,8 @@
-﻿namespace Example.Domain.Entities;
+﻿using Example.Domain.Entities.Interfaces;
 
-public class EntityBase
+namespace Example.Domain.Entities;
+
+public class EntityBase : ICreatedModifiedEntityFields
 {
     public string CreatedBy { get; set; } = null!;
     public DateTime CreatedDate { get; set; }

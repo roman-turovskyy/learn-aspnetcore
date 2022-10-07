@@ -1,28 +1,35 @@
-﻿using Example.Application;
-using Example.Common.Database;
+﻿using Example.Common.Database;
 using Example.Common.Messaging;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 public static class DIContainer
 {
-    public static void Configure(IServiceCollection services)
+    public static void Configure(WebApplicationBuilder builder)
     {
-        string? connStr = Environment.GetEnvironmentVariable("ExampleDbConnStr");
-        if (connStr == null)
-            throw new Exception("Environment variable ExampleDbConnStr is not defined.");
+        var services = builder.Services;
 
+        services.AddHttpContextAccessor(); // https://stackoverflow.com/questions/37371264
+
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddSingleton<IUserProvider, UserProvider>();
         services.AddTransient<IMessageBus, MessageBus>();
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        services.AddTransient<AuditingInterceptor>();
+        services.AddTransient<SystemFieldsUpdateInterceptor>();
 
-        services.AddScoped((sp) =>
-        {
-            var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-                                .UseSqlServer(connStr)
-                                .UseAudit(serviceProvider)
-                                .Options;
-            return new AppDbContext(contextOptions);
-        });
+        services.AddDbContext<AppDbContext>(
+            (sp, dbContextBuilder) =>
+            {
+                string connStr = builder.Configuration.GetConnectionString("ExampleDbConnStr");
+                if (connStr == null)
+                    throw new ConfigurationException("ExampleDbConnStr is missing.");
+
+                dbContextBuilder
+                    .UseSqlServer(connStr)
+                    .AddInterceptors(
+                        sp.GetRequiredService<AuditingInterceptor>(),
+                        sp.GetRequiredService<SystemFieldsUpdateInterceptor>());
+            });
 
         services.AddMediatR(typeof(ApplicationAssemblyMarkerClass));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

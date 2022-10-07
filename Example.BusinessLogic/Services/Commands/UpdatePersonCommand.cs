@@ -2,9 +2,9 @@
 
 namespace Example.Application;
 
-public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<int>
+public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
 {
-    public int Id { get; set;}
+    public Guid Id { get; set;}
     public string FirstName { get; init; } = null!;
     public string LastName { get; init; } = null!;
     public string? Suffix { get; init; }
