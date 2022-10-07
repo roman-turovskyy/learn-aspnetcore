@@ -1,4 +1,5 @@
-﻿using Example.Domain.Entities;
+﻿using Example.Application.Tests.Helpers;
+using Example.Domain.Entities;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -25,7 +26,7 @@ public class GetPersonListQueryHandlerTests
     {
         using (AppDbContext dbContext = TestDbContext.Create())
         {
-            var person = new Person() { PersonId = Guid.NewGuid(), FirstName = "FirstName1", LastName = "LastName1", RowVersion = Array.Empty<byte>() };
+            var person = new Person() { PersonId = Guid.NewGuid(), FirstName = "FirstName1", LastName = "LastName1" };
             dbContext.Person.Add(person);
             await dbContext.SaveChangesAsync();
 

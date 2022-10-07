@@ -1,4 +1,6 @@
-﻿namespace Example.Application.Tests;
+﻿using Example.Application.Tests.Helpers;
+
+namespace Example.Application.Tests;
 
 public class CreatePersonCommandHandlerTests
 {

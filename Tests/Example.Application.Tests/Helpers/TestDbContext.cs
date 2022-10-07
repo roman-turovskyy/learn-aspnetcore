@@ -2,7 +2,7 @@
 using Example.Common.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace Example.Application.Tests;
+namespace Example.Application.Tests.Helpers;
 
 internal class TestDbContext
 {
@@ -28,7 +28,9 @@ internal class TestDbContext
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-           .AddInterceptors(new SystemFieldsUpdateInterceptor(dateTimeProvider, userProvider))
+           .AddInterceptors(
+                new SystemFieldsUpdateInterceptor(dateTimeProvider, userProvider),
+                new RowVersionSetInterceptor())
            .Options;
 
         var context = new AppDbContext(options);

@@ -23,12 +23,7 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
         {
             // TODO: validation
             FirstName = command.FirstName,
-            LastName = command.LastName,
-            RowVersion = Array.Empty<byte>(), // otherwise InMemoryDatabase fails during testing
-            CreatedBy = "TODO:",
-            CreatedDate = DateTime.UtcNow, // TODO:
-            ModifiedBy = "TODO:",
-            ModifiedDate = DateTime.UtcNow // TODO:
+            LastName = command.LastName
         };
         _dbContext.Person.Add(person);
         await _dbContext.SaveChangesAsync(cancellationToken);
