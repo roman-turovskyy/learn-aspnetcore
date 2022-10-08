@@ -54,7 +54,7 @@ public class AuditingInterceptor : SaveChangesInterceptor
     private static CollectedAuditRecords CollectAuditRecords(DbContext? context)
     {
         var collectedRecords = new CollectedAuditRecords();
-        
+
         if (context == null)
             return collectedRecords;
 
