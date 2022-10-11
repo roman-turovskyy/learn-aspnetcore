@@ -1,6 +1,4 @@
-﻿using Example.Domain.Entities.Interfaces;
-
-namespace Example.Domain.Entities;
+﻿namespace Example.Domain.Entities;
 
 public class EntityBase : ICreatedModifiedEntityFields
 {

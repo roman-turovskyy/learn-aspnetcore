@@ -1,4 +1,4 @@
-﻿namespace Example.Common.Database;
+﻿namespace Example.Common.Database.Audit;
 
 public class CollectedAuditRecords
 {
@@ -6,6 +6,6 @@ public class CollectedAuditRecords
 
     public override string ToString()
     {
-        return String.Join("\r\n", Entities);
+        return string.Join("\r\n", Entities);
     }
 }

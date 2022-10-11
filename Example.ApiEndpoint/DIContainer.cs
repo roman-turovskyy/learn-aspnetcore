@@ -15,7 +15,10 @@ public static class DIContainer
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IUserProvider, UserProvider>();
         services.AddTransient<IMessageBus, MessageBus>();
+
         services.AddTransient<AuditingInterceptor>();
+        services.AddTransient<IAuditDataProvider, AuditDataProvider>();
+
         services.AddTransient<SystemFieldsUpdateInterceptor>();
 
         services.AddMediatR(typeof(ApplicationAssemblyMarkerClass));
@@ -45,8 +48,8 @@ public static class DIContainer
                         sqlServerOptAction.CommandTimeout(databaseOptions.CommandTimeout);
                     })
                     .AddInterceptors(
-                        sp.GetRequiredService<AuditingInterceptor>(),
-                        sp.GetRequiredService<SystemFieldsUpdateInterceptor>())
+                        sp.GetRequiredService<SystemFieldsUpdateInterceptor>(),
+                        sp.GetRequiredService<AuditingInterceptor>())
                     .EnableDetailedErrors(databaseOptions.EnableDetailedError)
                     .EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
             });

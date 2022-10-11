@@ -1,4 +1,4 @@
-﻿using Example.Domain.Entities.Interfaces;
+﻿using Example.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;

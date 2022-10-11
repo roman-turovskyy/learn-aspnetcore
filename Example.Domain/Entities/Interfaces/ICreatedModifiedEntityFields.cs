@@ -1,4 +1,4 @@
-﻿namespace Example.Domain.Entities.Interfaces;
+﻿namespace Example.Domain.Entities;
 
 public interface ICreatedModifiedEntityFields
 {

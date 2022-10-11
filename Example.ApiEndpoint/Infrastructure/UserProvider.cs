@@ -1,6 +1,4 @@
-﻿using Example.Common;
-
-namespace Example.ApiEndpoint;
+﻿namespace Example.ApiEndpoint;
 
 public class UserProvider : IUserProvider
 {

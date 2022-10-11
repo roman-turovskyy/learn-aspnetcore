@@ -1,6 +1,6 @@
 ﻿namespace Example.Domain.Entities;
 
-public class Person : EntityBase
+public class Person : EntityBase, IAuditableEntity
 {
     public Guid PersonId { get; set; }
     public string FirstName { get; set; } = null!;
