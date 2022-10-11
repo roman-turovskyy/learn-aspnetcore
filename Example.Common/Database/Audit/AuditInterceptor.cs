@@ -59,7 +59,12 @@ public class AuditingInterceptor : SaveChangesInterceptor
         if (_collectedAuditRecords is null || _collectedAuditRecords.Entities.Count == 0)
             return;
 
-        Console.WriteLine($"Sending AuditMessage:\r\n{_collectedAuditRecords}");
+        var cmd = new AuditAddCommand()
+        {
+            AuditRecords = _collectedAuditRecords.Entities
+        };
+
+        _messageBus.SendAsync(cmd);
     }
 
     private CollectedAuditRecords CollectAuditRecords(DbContext? context)
@@ -91,13 +96,12 @@ public class AuditingInterceptor : SaveChangesInterceptor
                 AuditData = entry.ToJson(),
                 AuditDate = auditDate,
                 // We can take ModifiedBy since there is an agreement that for newly created and modified entities this value must be set.
-                AuditUser = entity.ModifiedBy,
+                AuditUser = GetAuditUser(entity),
                 // In legacy auditing implementation this code looked like this: entry.EntityType.Name.
-                EntityType = entry.Entity.GetType().Name,
+                EntityType = entry.Entity.GetType().Name, // TODO: is this a proper way to get EntityType?
                 TablePk = GetEntityPrimaryKey(context, entry),
                 TenantName = _auditDataProvider.TenantName,
                 ProductId = _auditDataProvider.ProductId
-
             };
             collectedRecords.Entities.Add(auditLogJson);
         }
@@ -118,20 +122,40 @@ public class AuditingInterceptor : SaveChangesInterceptor
         return collectedRecords;
     }
 
+    private string GetAuditUser(IAuditableEntity entity)
+    {
+        if (entity is ICreatedModifiedEntityFields e)
+        {
+            return e.ModifiedBy;
+        }
+        else if (entity is ICreatedModifiedEntityFieldsLegacy eLegacy)
+        {
+            return eLegacy.ModifiedBy ?? eLegacy.CreatedBy;
+        }
+
+        throw new AuditingException($"IAuditableEntity entity {entity.GetType().FullName} must implement either " +
+            $"ICreatedModifiedEntityFields or ICreatedModifiedEntityFieldsLegacy.");
+    }
+
     private string GetEntityPrimaryKey(DbContext context, EventEntry eventEntry)
     {
         var entry = context.Entry(eventEntry.Entity);
 
         IKey? primaryKey = entry.Metadata.FindPrimaryKey();
         if (primaryKey == null)
-            throw new AuditingException($"Auditable entity {eventEntry.Name} must have primary key defined");
+            throw new AuditingException($"Auditable entity {eventEntry.Name} must have primary key defined.");
 
         // In legacy auditing implementation this code looked like this: eventEntry.PrimaryKey.First().Value.ToString()
-        object? primaryKeyValue = primaryKey.Properties.Select(x => x.PropertyInfo?.GetValue(eventEntry.Entity)).FirstOrDefault();
-        if (primaryKeyValue == null)
-            throw new AuditingException($"Auditable entity {eventEntry.Name} must have non-empty primary key");
+        List<object?> primaryKeyValues = primaryKey.Properties.Select(x => x.PropertyInfo?.GetValue(eventEntry.Entity)).ToList();
 
-        // Bang to calm down compiler
-        return primaryKeyValue.ToString()!;
+        if (primaryKeyValues.Count != 1)
+            throw new AuditingException($"Auditable entity {eventEntry.Name} cannot have composite primary key (not supported in the current implementation).");
+
+        string? primaryKeyValue = primaryKeyValues?.FirstOrDefault()?.ToString();
+
+        if (primaryKeyValue == null)
+            throw new AuditingException($"Auditable entity {eventEntry.Name} must have non-empty primary key.");
+
+        return primaryKeyValue;
     }
 }

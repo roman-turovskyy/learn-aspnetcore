@@ -1,5 +1,5 @@
 ﻿namespace Example.Domain.Entities;
 
-public interface IAuditableEntity : ICreatedModifiedEntityFields
+public interface IAuditableEntity
 {
 }

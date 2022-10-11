@@ -26,6 +26,7 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
             LastName = command.LastName
         };
         _dbContext.Person.Add(person);
+
         await _dbContext.SaveChangesAsync(cancellationToken);
         return new CommandResultWithId(person.PersonId);
     }

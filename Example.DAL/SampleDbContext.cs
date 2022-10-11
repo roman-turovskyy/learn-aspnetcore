@@ -6,6 +6,7 @@ namespace Example.DAL;
 public class SampleDbContext : DbContext
 {
     public virtual DbSet<Person> Person { get; set; } = null!;
+    public virtual DbSet<PersonLegacy> PersonLegacy { get; set; } = null!;
     public virtual DbSet<BlogPost> BlogPost { get; set; } = null!;
     public virtual DbSet<Author> Author { get; set; } = null!;
 
@@ -56,5 +57,41 @@ public class SampleDbContext : DbContext
                 .IsRowVersion();
         });
 
+        modelBuilder.Entity<PersonLegacy>(entity =>
+        {
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsRequired()
+                .IsUnicode(false);
+
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsRequired()
+                .IsUnicode(false);
+
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(50)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasDefaultValueSql("(suser_sname())");
+
+            entity.Property(e => e.CreatedOn)
+                .IsRequired()
+                .HasColumnType("datetime")
+                .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc))
+                .HasDefaultValueSql("(getutcdate())");
+
+            entity.Property(e => e.ModifiedBy)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.Property(e => e.ModifiedOn)
+                .HasColumnType("datetime")
+                .HasConversion(v => v, v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+
+            entity.Property(e => e.RowVersion)
+                .IsRequired()
+                .IsRowVersion();
+        });
     }
 }

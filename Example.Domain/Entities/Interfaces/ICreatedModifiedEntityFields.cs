@@ -6,5 +6,4 @@ public interface ICreatedModifiedEntityFields
     DateTime CreatedDate { get; set; }
     string ModifiedBy { get; set; }
     DateTime ModifiedDate { get; set; }
-
 }

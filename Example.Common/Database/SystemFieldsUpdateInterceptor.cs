@@ -8,12 +8,12 @@ namespace Example.Common.Database;
 public class SystemFieldsUpdateInterceptor : SaveChangesInterceptor
 {
     private IDateTimeProvider _dateTimeProvider;
-    private IUserProvider _appUserProvider;
+    private IUserProvider _userProvider;
 
-    public SystemFieldsUpdateInterceptor(IDateTimeProvider dateTimeProvider, IUserProvider appUserProvider)
+    public SystemFieldsUpdateInterceptor(IDateTimeProvider dateTimeProvider, IUserProvider userProvider)
     {
         _dateTimeProvider = dateTimeProvider;
-        _appUserProvider = appUserProvider;
+        _userProvider = userProvider;
     }
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -39,7 +39,11 @@ public class SystemFieldsUpdateInterceptor : SaveChangesInterceptor
 
         // Make a local variable so all entities will get the same value
         DateTime utcNow = _dateTimeProvider.UtcNow;
-        string userName = _appUserProvider.UserName;
+        string userName = _userProvider.UserName;
+
+        // For scenarios when caller does not want us to update CreatedBy/ModifiedBy,
+        // e.g. because he manually set these fields to some custom values.
+        const string dontUpdateUserSentinelValue = "";
 
         foreach (EntityEntry entry in context.ChangeTracker.Entries())
         {
@@ -50,11 +54,15 @@ public class SystemFieldsUpdateInterceptor : SaveChangesInterceptor
                 if (entry.State == EntityState.Added)
                 {
                     entityFields.CreatedDate = utcNow;
-                    entityFields.CreatedBy = userName;
+
+                    if (userName != dontUpdateUserSentinelValue)
+                        entityFields.CreatedBy = userName;
                 }
 
                 entityFields.ModifiedDate = utcNow;
-                entityFields.ModifiedBy = userName;
+
+                if (userName != dontUpdateUserSentinelValue)
+                    entityFields.ModifiedBy = userName;
             }
         }
     }
