@@ -1,6 +1,6 @@
 ﻿namespace Example.Common.Database;
 
-public class AuditLogJson
+public class AuditRecord
 {
     public long AuditLogId { get; set; }
     public string EntityType { get; set; } = null!;

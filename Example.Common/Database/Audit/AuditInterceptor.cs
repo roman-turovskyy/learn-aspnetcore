@@ -1,5 +1,4 @@
 ﻿using Audit.EntityFramework;
-using Example.Common.Database.Audit;
 using Example.Common.Messaging;
 using Example.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,7 @@ namespace Example.Common.Database;
 public class AuditingInterceptor : SaveChangesInterceptor
 {
     private readonly DbContextHelper? _auditDbContextHelper;
-    private CollectedAuditRecords? _collectedAuditRecords = null;
+    private IReadOnlyCollection<AuditRecord>? _collectedAuditRecords = null;
     private readonly IMessageBus _messageBus;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IAuditDataProvider _auditDataProvider;
@@ -21,6 +20,7 @@ public class AuditingInterceptor : SaveChangesInterceptor
     {
         _messageBus = messageBus;
         //_auditDbContextHelper = new DbContextHelper();
+        _auditDbContextHelper = null;
         _dateTimeProvider = dateTimeProvider;
         _auditDataProvider = auditDataProvider;
     }
@@ -55,21 +55,37 @@ public class AuditingInterceptor : SaveChangesInterceptor
 
     private void SendAuditCommand()
     {
-        if (_collectedAuditRecords is null || _collectedAuditRecords.Entities.Count == 0)
+        if (_collectedAuditRecords is null || _collectedAuditRecords.Count == 0)
             return;
 
-        var cmd = new AuditAddCommand()
+        List<ReferralAuditRecord> referralAuditRecords = _collectedAuditRecords.Where(i => i is IReferralAuditableEntity).Cast<ReferralAuditRecord>().ToList();
+        if (referralAuditRecords.Any())
         {
-            AuditRecords = _collectedAuditRecords.Entities
-        };
+            var referralCmd = new ReferralAuditAddCommand()
+            {
+                AuditRecords = referralAuditRecords
+            };
 
-        _messageBus.SendAsync(cmd);
+            _messageBus.SendAsync(referralCmd);
+        }
+
+        List<AuditRecord> genericAuditRecords = _collectedAuditRecords.Except(referralAuditRecords).ToList();
+
+        if (genericAuditRecords.Any())
+        {
+            var cmd = new AuditAddCommand()
+            {
+                AuditRecords = genericAuditRecords
+            };
+
+            _messageBus.SendAsync(cmd);
+        }
     }
 
-    private CollectedAuditRecords CollectAuditRecords(DbContext? context)
+    private IReadOnlyCollection<AuditRecord> CollectAuditRecords(DbContext? context)
     {
         if (context == null)
-            return new CollectedAuditRecords();
+            return new List<AuditRecord>().AsReadOnly();
 
         context.ChangeTracker.DetectChanges();
 
@@ -78,7 +94,7 @@ public class AuditingInterceptor : SaveChangesInterceptor
 
         DateTime auditDate = _dateTimeProvider.UtcNow;
 
-        CollectedAuditRecords collectedRecords = new CollectedAuditRecords();
+        var collectedRecords = new List<AuditRecord>();
         foreach (EntityEntry entry in context.ChangeTracker.Entries().Where(e => e.Entity is IAuditableEntity))
         {
             // Using regular cast since we are sure it will succeed
@@ -89,7 +105,7 @@ public class AuditingInterceptor : SaveChangesInterceptor
             {
                 var audidEventEntry = new AuditEventEntry(entry, context);
 
-                var auditLogJson = new AuditLogJson()
+                var auditRecord = new AuditRecord()
                 {
                     AuditAction = audidEventEntry.Action,
                     AuditData = audidEventEntry.ToJson(),
@@ -103,31 +119,51 @@ public class AuditingInterceptor : SaveChangesInterceptor
                     ProductId = _auditDataProvider.ProductId
                 };
 
-                collectedRecords.Entities.Add(auditLogJson);
+                if (entry.Entity is IReferralAuditableEntity referralAuditable)
+                {
+                    // Pretty naive implementation, need to be improved
+                    auditRecord = new ReferralAuditRecord()
+                    {
+                        AuditAction = auditRecord.AuditAction,
+                        AuditData = auditRecord.AuditData,
+                        AuditDate = auditRecord.AuditDate,
+                        AuditUser = auditRecord.AuditUser,
+                        EntityType = auditRecord.EntityType,
+                        TablePk = auditRecord.TablePk,
+                        TenantName = auditRecord.TenantName,
+                        ProductId = auditRecord.ProductId,
+
+                        // This is how we plan to get ReferralId, logic will be encapsulated inside GetReferralId()
+                        ReferralId = referralAuditable.GetReferralId()
+                    };
+                }
+
+                collectedRecords.Add(auditRecord);
             }
         }
 
-        return collectedRecords;
+        return collectedRecords.AsReadOnly();
     }
 
-    private CollectedAuditRecords CollectAuditRecordsUsingLegacyAuditPackage(DbContext context, DbContextHelper auditDbContextHelper)
+    private IReadOnlyCollection<AuditRecord> CollectAuditRecordsUsingLegacyAuditPackage(DbContext context, DbContextHelper auditDbContextHelper)
     {
-        var collectedRecords = new CollectedAuditRecords();
         EntityFrameworkEvent autidEvent = auditDbContextHelper.CreateAuditEvent(new AuditDbContextWrapper(context));
 
         List<EventEntry> auditableEntries = autidEvent.Entries.Where(e => e.Entity is IAuditableEntity).ToList();
 
         if (auditableEntries.Count == 0)
-            return collectedRecords;
+            return new List<AuditRecord>().AsReadOnly();
 
         DateTime auditDate = _dateTimeProvider.UtcNow;
+
+        var collectedRecords = new List<AuditRecord>();
 
         foreach (EventEntry? entry in auditableEntries)
         {
             // Using regular cast since we are sure it will succeed
             IAuditableEntity entity = (IAuditableEntity)entry.Entity;
 
-            var auditLogJson = new AuditLogJson()
+            var auditLogJson = new AuditRecord()
             {
                 AuditAction = entry.Action,
                 AuditData = entry.ToJson(),
@@ -140,7 +176,7 @@ public class AuditingInterceptor : SaveChangesInterceptor
                 TenantName = _auditDataProvider.TenantName,
                 ProductId = _auditDataProvider.ProductId
             };
-            collectedRecords.Entities.Add(auditLogJson);
+            collectedRecords.Add(auditLogJson);
         }
 
         return collectedRecords;
