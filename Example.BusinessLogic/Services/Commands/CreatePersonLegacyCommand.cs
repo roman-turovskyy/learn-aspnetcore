@@ -4,8 +4,8 @@ namespace Example.Application;
 
 public record CreatePersonLegacyCommand : ICommand<CommandResultWithId>
 {
-    public string FirstName { get; init; } = null!;
-    public string LastName { get; init; } = null!;
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
 }
 
 public class CreatePersonLegacyCommandHandler : ICommandHandler<CreatePersonLegacyCommand, CommandResultWithId>

@@ -5,10 +5,10 @@ namespace Example.DAL;
 
 public class SampleDbContext : DbContext
 {
-    public virtual DbSet<Person> Person { get; set; } = null!;
-    public virtual DbSet<PersonLegacy> PersonLegacy { get; set; } = null!;
-    public virtual DbSet<BlogPost> BlogPost { get; set; } = null!;
-    public virtual DbSet<Author> Author { get; set; } = null!;
+    public virtual DbSet<Person> Person { get; set; }
+    public virtual DbSet<PersonLegacy> PersonLegacy { get; set; }
+    public virtual DbSet<BlogPost> BlogPost { get; set; }
+    public virtual DbSet<Author> Author { get; set; }
 
     public SampleDbContext(DbContextOptions options) : base(options)
     {

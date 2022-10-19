@@ -5,11 +5,11 @@ namespace Example.Application;
 public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
 {
     public Guid Id { get; set;}
-    public string FirstName { get; init; } = null!;
-    public string LastName { get; init; } = null!;
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
     public string? Suffix { get; init; }
     public DateTime? ModifiedDate { get; init; }
-    public byte[] RowVersion { get; init; } = null!;
+    public byte[] RowVersion { get; init; }
 }
 
 public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, CommandResult>

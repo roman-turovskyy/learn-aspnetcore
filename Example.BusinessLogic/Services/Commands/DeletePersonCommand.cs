@@ -5,7 +5,7 @@ namespace Example.Application;
 public record DeletePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
 {
     public Guid Id { get; set; }
-    public byte[] RowVersion { get; init; } = null!;
+    public byte[] RowVersion { get; init; }
 }
 
 public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand, CommandResult>

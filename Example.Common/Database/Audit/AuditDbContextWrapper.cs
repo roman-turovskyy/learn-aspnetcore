@@ -17,17 +17,17 @@ internal class AuditDbContextWrapper : IAuditDbContext
         _dbContext = dbContext;
     }
 
-    public string AuditEventType { get; set; } = null!;
+    public string AuditEventType { get; set; }
     public bool AuditDisabled { get; set; }
     // It is important to set this property to true, so EventEntry.Entity will be populated.
     public bool IncludeEntityObjects { get; set; } = true;
     public bool ExcludeValidationResults { get; set; }
     public AuditOptionMode Mode { get; set; }
-    public AuditDataProvider AuditDataProvider { get; set; } = null!;
-    public IAuditScopeFactory AuditScopeFactory { get; set; } = null!;
+    public AuditDataProvider AuditDataProvider { get; set; }
+    public IAuditScopeFactory AuditScopeFactory { get; set; }
     public Dictionary<string, object> ExtraFields { get; } = new Dictionary<string, object>();
     public DbContext DbContext => _dbContext;
-    public Dictionary<Type, EfEntitySettings> EntitySettings { get; set; } = null!;
+    public Dictionary<Type, EfEntitySettings> EntitySettings { get; set; }
     public bool ExcludeTransactionId { get; set; }
     public bool EarlySavingAudit { get; set; }
 

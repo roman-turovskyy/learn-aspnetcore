@@ -19,7 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Domain", "Example.D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EF59FA9B-9E3A-496E-9D15-AA6328AF4D9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.MigrateDatabase", "Example.MigrateDatabase\Example.MigrateDatabase.csproj", "{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.MigrateDatabase", "Example.MigrateDatabase\Example.MigrateDatabase.csproj", "{F321B622-B5F3-4DA5-87DB-C81384EDBDE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B7E40014-A3E2-40B9-AA8B-B9491BE34FE0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

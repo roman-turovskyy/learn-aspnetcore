@@ -3,9 +3,9 @@
 public class PersonLegacy : EntityBaseLegacy, IReferralAuditableEntity
 {
     public Guid PersonLegacyId { get; set; }
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-    public byte[] RowVersion { get; set; } = null!;
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public byte[] RowVersion { get; set; }
 
     public int GetReferralId()
     {
