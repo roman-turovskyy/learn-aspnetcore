@@ -1,4 +1,5 @@
 ﻿using Example.Domain.Entities;
+using Example.Domain.Enums;
 
 namespace Example.Application;
 
@@ -6,6 +7,9 @@ public record CreatePersonCommand : ICommand<CommandResultWithId>
 {
     public string FirstName { get; init; }
     public string LastName { get; init; }
+    public PersonSex? Sex { get; init; }
+    public PersonOccupation Occupation { get; init; }
+    public PersonOccupationReason OccupationReason { get; init; }
 }
 
 public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, CommandResultWithId>
@@ -21,13 +25,17 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
     {
         var person = new Person
         {
-            // TODO: validation
             FirstName = command.FirstName,
-            LastName = command.LastName
+            LastName = command.LastName,
+            Sex = command.Sex,
+            Occupation = command.Occupation,
+            OccupationReason = command.OccupationReason
         };
+
         _dbContext.Person.Add(person);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
+
         return new CommandResultWithId(person.PersonId);
     }
 }

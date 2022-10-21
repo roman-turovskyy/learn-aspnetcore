@@ -1,4 +1,6 @@
-﻿using Example.Domain.Entities;
+﻿using Example.Common.Database;
+using Example.Domain.Entities;
+using Example.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Example.DAL;
@@ -9,6 +11,10 @@ public class SampleDbContext : DbContext
     public virtual DbSet<PersonLegacy> PersonLegacy { get; set; }
     public virtual DbSet<BlogPost> BlogPost { get; set; }
     public virtual DbSet<Author> Author { get; set; }
+
+    public virtual DbSet<Product> Product { get; set; }
+    public virtual DbSet<ReferenceByProduct> ReferenceByProduct { get; set; }
+    //public virtual DbSet<ReferenceChild> ReferenceChild { get; set; }
 
     public SampleDbContext(DbContextOptions options) : base(options)
     {
@@ -27,6 +33,17 @@ public class SampleDbContext : DbContext
                 .HasMaxLength(50)
                 .IsRequired()
                 .IsUnicode(false);
+
+            entity.Property(e => e.Sex)
+                .HasConversion(new ReferenceEnumConverter<PersonSex>());
+
+            entity.Property(e => e.Occupation)
+                .IsRequired()
+                .HasConversion(new ReferenceEnumConverter<PersonOccupation>());
+
+            entity.Property(e => e.OccupationReason)
+                .IsRequired()
+                .HasConversion(new ReferenceEnumConverter<PersonOccupationReason>());
 
             entity.Property(e => e.CreatedBy)
                 .HasMaxLength(50)
@@ -93,5 +110,29 @@ public class SampleDbContext : DbContext
                 .IsRequired()
                 .IsRowVersion();
         });
+
+        modelBuilder.Entity<ReferenceByProduct>(entity =>
+        {
+            entity.HasKey(x => x.ReferenceByProductId);
+
+            entity.HasOne(x => x.Product)
+                 .WithMany()
+                 .HasForeignKey(x => x.ProductId);
+        });
+
+        //modelBuilder.Entity<ReferenceChild>(entity =>
+        //{
+        //    entity.HasKey("ReferenceId", "ChildId");
+
+        //    modelBuilder.Entity<ReferenceChild>()
+        //         .HasOne(e => e.Reference)
+        //         .WithMany(x => x.Children)
+        //         .HasForeignKey(x => x.ReferenceId);
+
+        //    modelBuilder.Entity<ReferenceChild>()
+        //         .HasOne(e => e.Child)
+        //         .WithMany()
+        //         .HasForeignKey(x => x.ChildId);
+        //});
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Example.Domain.Entities;
+using Example.Domain.Enums;
 
 namespace Example.Application;
 
@@ -7,7 +8,9 @@ public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
     public Guid Id { get; set;}
     public string FirstName { get; init; }
     public string LastName { get; init; }
-    public string? Suffix { get; init; }
+    public PersonSex? Sex { get; init; }
+    public PersonOccupation Occupation { get; init; }
+    public PersonOccupationReason OccupationReason { get; init; }
     public DateTime? ModifiedDate { get; init; }
     public byte[] RowVersion { get; init; }
 }
@@ -31,6 +34,9 @@ public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, C
 
         existing.FirstName = command.FirstName;
         existing.LastName = command.LastName;
+        existing.Sex = command.Sex;
+        existing.Occupation = command.Occupation;
+        existing.OccupationReason = command.OccupationReason;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
