@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Example.Common.Database;
+namespace Example.Common.Database.Enums;
 
 public class ReferenceEnumConverter<T> : ValueConverter<T, Guid>
         where T : struct, Enum

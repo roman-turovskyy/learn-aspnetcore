@@ -8,5 +8,8 @@ public class Person : EntityBase, IAuditableEntity
     public PersonSex? Sex { get; set; }  // optional just for testing
     public PersonOccupation Occupation { get; set; }
     public PersonOccupationReason OccupationReason { get; set; }
+    public PersonSex2? Sex2 { get; set; }  // optional just for testing
+    public PersonOccupation2 Occupation2 { get; set; }
+    public PersonOccupationReason2 OccupationReason2 { get; set; }
     public byte[] RowVersion { get; set; }
 }

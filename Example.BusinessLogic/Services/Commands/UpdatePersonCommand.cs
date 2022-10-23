@@ -11,6 +11,9 @@ public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
     public PersonSex? Sex { get; init; }
     public PersonOccupation Occupation { get; init; }
     public PersonOccupationReason OccupationReason { get; init; }
+    public PersonSex2? Sex2 { get; init; }
+    public PersonOccupation2 Occupation2 { get; init; }
+    public PersonOccupationReason2 OccupationReason2 { get; init; }
     public DateTime? ModifiedDate { get; init; }
     public byte[] RowVersion { get; init; }
 }
@@ -37,6 +40,9 @@ public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, C
         existing.Sex = command.Sex;
         existing.Occupation = command.Occupation;
         existing.OccupationReason = command.OccupationReason;
+        existing.Sex2 = command.Sex2;
+        existing.Occupation2 = command.Occupation2;
+        existing.OccupationReason2 = command.OccupationReason2;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

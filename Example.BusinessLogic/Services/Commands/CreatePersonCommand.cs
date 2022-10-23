@@ -10,6 +10,9 @@ public record CreatePersonCommand : ICommand<CommandResultWithId>
     public PersonSex? Sex { get; init; }
     public PersonOccupation Occupation { get; init; }
     public PersonOccupationReason OccupationReason { get; init; }
+    public PersonSex2? Sex2 { get; init; }
+    public PersonOccupation2 Occupation2 { get; init; }
+    public PersonOccupationReason2 OccupationReason2 { get; init; }
 }
 
 public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, CommandResultWithId>
@@ -29,7 +32,10 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
             LastName = command.LastName,
             Sex = command.Sex,
             Occupation = command.Occupation,
-            OccupationReason = command.OccupationReason
+            OccupationReason = command.OccupationReason,
+            Sex2 = command.Sex2,
+            Occupation2 = command.Occupation2,
+            OccupationReason2 = command.OccupationReason2
         };
 
         _dbContext.Person.Add(person);

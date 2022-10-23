@@ -1,4 +1,4 @@
-﻿using Example.Common.Database;
+﻿using Example.Common.Database.Enums;
 using Example.Domain.Entities;
 using Example.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +44,18 @@ public class SampleDbContext : DbContext
             entity.Property(e => e.OccupationReason)
                 .IsRequired()
                 .HasConversion(new ReferenceEnumConverter<PersonOccupationReason>());
+
+            // TODO: deal with nullability
+            entity.Property(e => e.Sex2)
+                .HasConversion(new ReferenceEnumConverter2<PersonSex2>());
+
+            entity.Property(e => e.Occupation2)
+                .IsRequired()
+                .HasConversion(new ReferenceEnumConverter2<PersonOccupation2>());
+
+            entity.Property(e => e.OccupationReason2)
+                .IsRequired()
+                .HasConversion(new ReferenceEnumConverter2<PersonOccupationReason2>());
 
             entity.Property(e => e.CreatedBy)
                 .HasMaxLength(50)

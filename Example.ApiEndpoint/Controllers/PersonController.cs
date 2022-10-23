@@ -1,4 +1,3 @@
-using Example.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.ApiEndpoint.Extensions;

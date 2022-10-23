@@ -1,6 +1,4 @@
-﻿using Example.Domain.Common;
-
-namespace Example.Domain.Enums;
+﻿namespace Example.Domain.Enums;
 
 public enum PersonSex
 {
@@ -12,4 +10,15 @@ public enum PersonSex
 
     [ReferenceId("C4A48DB6-CB21-4602-B4E7-321AFB9864E1")]
     Female
+}
+
+public class PersonSex2 : EnumReference
+{
+    public static readonly PersonSex2 Unknown = new PersonSex2("Unknown");
+    public static readonly PersonSex2 Male = new PersonSex2("Male");
+    public static readonly PersonSex2 Female = new PersonSex2("Female");
+
+    public PersonSex2(string value) : base(value, "DME", "Sex", "Person")
+    {
+    }
 }
