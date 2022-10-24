@@ -27,16 +27,10 @@ public class EnumReferenceJsonConverter : JsonConverter
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!IsNullableType(objectType))
-            {
-                throw new JsonSerializationException($"Cannot convert null value to {objectType}.");
-            }
-
             return null;
         }
 
-        bool isNullable = IsNullableType(objectType);
-        Type? t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+        Type? t = objectType;
 
         try
         {
@@ -44,10 +38,8 @@ public class EnumReferenceJsonConverter : JsonConverter
             {
                 string? enumText = reader.Value?.ToString();
 
-                if (string.IsNullOrEmpty(enumText) && isNullable)
-                {
+                if (string.IsNullOrEmpty(enumText))
                     return null;
-                }
 
                 return Activator.CreateInstance(t, enumText);
             }

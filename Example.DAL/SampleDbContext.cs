@@ -2,6 +2,7 @@
 using Example.Domain.Entities;
 using Example.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Converters;
 
 namespace Example.DAL;
 
@@ -33,6 +34,11 @@ public class SampleDbContext : DbContext
                 .HasMaxLength(50)
                 .IsRequired()
                 .IsUnicode(false);
+
+            entity.Property(e => e.StatusStr)
+                .HasConversion<string>();
+
+            entity.Property(e => e.StatusInt);
 
             entity.Property(e => e.Sex)
                 .HasConversion(new ReferenceEnumConverter<PersonSex>());

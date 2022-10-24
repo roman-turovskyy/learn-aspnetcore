@@ -4,18 +4,18 @@ using System.Linq.Expressions;
 
 namespace Example.Common.Database.Enums;
 
-public static class ReferenceEnumConverterCache
+public static class ReferenceByProductProviderStaticHost
 {
     private static IReferenceByProductProvider _referenceByProductProvider;
-    private static List<ReferenceByProductCommon>? _referenceByProductCache = null;
 
     public static List<ReferenceByProductCommon> ReferenceByProductCache
     {
         get
         {
-            EnsureCache();
+            if (_referenceByProductProvider is null)
+                throw new InvalidCastException("Did you forget to call SetReferenceByProductProvider() in your DI setup code?");
 
-            return _referenceByProductCache!;
+            return _referenceByProductProvider.GetRefrences();
         }
     }
 
@@ -23,12 +23,6 @@ public static class ReferenceEnumConverterCache
     {
         _referenceByProductProvider = referenceByProductProvider;
     }
-
-    private static void EnsureCache()
-    {
-        _referenceByProductCache ??= _referenceByProductProvider.GetRefrences();
-    }
-
 }
 
 public class ReferenceEnumConverter2<T> : ValueConverter<T, Guid>
@@ -44,12 +38,12 @@ public class ReferenceEnumConverter2<T> : ValueConverter<T, Guid>
 
     private static Guid ToGuid(EnumReference value)
     {
-        ReferenceByProductCommon? r = ReferenceEnumConverterCache.ReferenceByProductCache.FirstOrDefault(x => x.Code == value.Value
+        ReferenceByProductCommon? r = ReferenceByProductProviderStaticHost.ReferenceByProductCache.FirstOrDefault(x => x.Code == value.Value
             && x.Entity == value.Entity
             && x.Reference == value.Reference
             && x.ProductShortName == value.ProductShortName);
 
-        if (r == null )
+        if (r == null)
             // TODO: better Exception
             throw new ArgumentException($"Can't convert value {(T)value} to Guid.");
 
@@ -58,7 +52,7 @@ public class ReferenceEnumConverter2<T> : ValueConverter<T, Guid>
 
     private static T ToEnum(Guid referenceId)
     {
-        ReferenceByProductCommon? r = ReferenceEnumConverterCache.ReferenceByProductCache.FirstOrDefault(x => x.Id == referenceId);
+        ReferenceByProductCommon? r = ReferenceByProductProviderStaticHost.ReferenceByProductCache.FirstOrDefault(x => x.Id == referenceId);
 
         if (r == null)
             // TODO: better Exception

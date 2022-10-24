@@ -7,6 +7,8 @@ public record CreatePersonCommand : ICommand<CommandResultWithId>
 {
     public string FirstName { get; init; }
     public string LastName { get; init; }
+    public PersonStatus? StatusStr { get; init; }
+    public PersonStatus? StatusInt { get; init; }
     public PersonSex? Sex { get; init; }
     public PersonOccupation Occupation { get; init; }
     public PersonOccupationReason OccupationReason { get; init; }
@@ -30,6 +32,8 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
         {
             FirstName = command.FirstName,
             LastName = command.LastName,
+            StatusStr = command.StatusStr,
+            StatusInt = command.StatusInt,
             Sex = command.Sex,
             Occupation = command.Occupation,
             OccupationReason = command.OccupationReason,

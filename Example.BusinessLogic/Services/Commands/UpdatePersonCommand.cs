@@ -8,6 +8,8 @@ public class UpdatePersonCommand : ICommand<CommandResult>, ICommandWithId<Guid>
     public Guid Id { get; set;}
     public string FirstName { get; init; }
     public string LastName { get; init; }
+    public PersonStatus? StatusStr { get; init; }
+    public PersonStatus? StatusInt { get; init; }
     public PersonSex? Sex { get; init; }
     public PersonOccupation Occupation { get; init; }
     public PersonOccupationReason OccupationReason { get; init; }
@@ -33,10 +35,12 @@ public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, C
         if (existing == null)
             throw new AppException($"Person with Id {command.Id} does not exist.");
 
-        _dbContext.Entry(existing).Property(e => e.RowVersion).OriginalValue = command.RowVersion;
+        //_dbContext.Entry(existing).Property(e => e.RowVersion).OriginalValue = command.RowVersion;
 
         existing.FirstName = command.FirstName;
         existing.LastName = command.LastName;
+        existing.StatusStr = command.StatusStr;
+        existing.StatusInt = command.StatusInt;
         existing.Sex = command.Sex;
         existing.Occupation = command.Occupation;
         existing.OccupationReason = command.OccupationReason;

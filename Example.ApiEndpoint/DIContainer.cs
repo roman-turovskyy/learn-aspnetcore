@@ -1,7 +1,10 @@
 ﻿using Example.Common.Database;
+using Example.Common.Database.Enums;
 using Example.Common.Messaging;
+using Example.DAL;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 public static class DIContainer
@@ -11,6 +14,7 @@ public static class DIContainer
         var services = builder.Services;
 
         services.AddHttpContextAccessor(); // https://stackoverflow.com/questions/37371264
+        services.AddMemoryCache(); // Because we are using IMemoryCache
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IUserProvider, UserProvider>();
@@ -25,6 +29,11 @@ public static class DIContainer
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
         AddDbContext(builder, services);
+
+        var sp = services.BuildServiceProvider();
+
+        ReferenceByProductProviderStaticHost.SetReferenceByProductProvider(
+            new ReferenceByProductProvider(sp.GetRequiredService<AppDbContext>(), sp.GetRequiredService<IMemoryCache>()));
     }
 
     private static void AddDbContext(WebApplicationBuilder builder, IServiceCollection services)

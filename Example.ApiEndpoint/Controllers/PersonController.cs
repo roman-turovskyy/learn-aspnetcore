@@ -2,6 +2,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.ApiEndpoint.Extensions;
 using Example.Domain.Entities;
+using Microsoft.AspNet.OData;
+using AutoMapper.QueryableExtensions;
+using Example.ApiEndpoint.DTO;
+using AutoMapper;
 
 namespace ApiEndpoint.Controllers;
 
@@ -10,8 +14,15 @@ namespace ApiEndpoint.Controllers;
 public class PersonController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly AppDbContext _appDbContext;
+    private readonly IMapper _mapper;
 
-    public PersonController(IMediator mediator) => _mediator = mediator;
+    public PersonController(IMediator mediator, AppDbContext appDbContext, IMapper mapper)
+    {
+        _mediator = mediator;
+        _appDbContext = appDbContext;
+        _mapper = mapper;
+    }
 
     [HttpGet, Route("{id}")]
     public async Task<ActionResult<Person>> GetSingle(Guid id)
@@ -27,6 +38,12 @@ public class PersonController : ControllerBase
     public async Task<ICollection<Person>> GetList()
     {
         return await _mediator.Send(new GetPersonListQuery());
+    }
+
+    [HttpGet, Route("odata"), EnableQuery]
+    public async Task<IQueryable<PersonDTO>> GetListOdata()
+    {
+        return _appDbContext.Person.ProjectTo<PersonDTO>(_mapper.ConfigurationProvider);
     }
 
     [HttpPost]

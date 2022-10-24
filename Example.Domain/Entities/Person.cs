@@ -5,6 +5,8 @@ public class Person : EntityBase, IAuditableEntity
     public Guid PersonId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public PersonStatus? StatusInt { get; set; }  // of type int in  the database
+    public PersonStatus? StatusStr { get; set; }  // if type string in the database
     public PersonSex? Sex { get; set; }  // optional just for testing
     public PersonOccupation Occupation { get; set; }
     public PersonOccupationReason OccupationReason { get; set; }
