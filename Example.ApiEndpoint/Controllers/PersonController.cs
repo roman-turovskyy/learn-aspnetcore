@@ -41,7 +41,7 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet, Route("odata"), EnableQuery]
-    public async Task<IQueryable<PersonDTO>> GetListOdata()
+    public IQueryable<PersonDTO> GetListOdata()
     {
         return _appDbContext.Person.ProjectTo<PersonDTO>(_mapper.ConfigurationProvider);
     }

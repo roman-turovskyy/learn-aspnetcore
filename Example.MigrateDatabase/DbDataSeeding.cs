@@ -40,7 +40,8 @@ internal class DbDataSeeding
             OccupationReason = PersonOccupationReason.BecauseLikesToWork,
             Sex2 = PersonSex2.Male,
             Occupation2 = PersonOccupation2.WorkingHard,
-            OccupationReason2 = PersonOccupationReason2.BecauseLikesToWork
+            OccupationReason2 = PersonOccupationReason2.BecauseLikesToWork,
+            Occupation22 = PersonOccupation2.WorkingHard
         });
         _context.Add(new Person
         {
@@ -54,7 +55,8 @@ internal class DbDataSeeding
             OccupationReason = PersonOccupationReason.NobodyKnows,
             Sex2 = null,
             Occupation2 = PersonOccupation2.DoingNothing,
-            OccupationReason2 = PersonOccupationReason2.NobodyKnows
+            OccupationReason2 = PersonOccupationReason2.NobodyKnows,
+            Occupation22 = PersonOccupation2.WorkingHard
         });
         _context.Add(new Person
         {
@@ -68,7 +70,8 @@ internal class DbDataSeeding
             OccupationReason = PersonOccupationReason.BecauseNeedsMoney,
             Sex2 = PersonSex2.Female,
             Occupation2 = PersonOccupation2.WorkingHard,
-            OccupationReason2 = PersonOccupationReason2.BecauseNeedsMoney
+            OccupationReason2 = PersonOccupationReason2.BecauseNeedsMoney,
+            Occupation22 = PersonOccupation2.DoingNothing
         });
 
         _context.Add(new PersonLegacy { PersonLegacyId = "A53673EC-D6F2-4368-BA3F-C258ED63762D".G(), FirstName = "Roman", LastName = "Turovskyy Legacy" });
@@ -230,7 +233,7 @@ internal class DbDataSeeding
 
     private static Guid GetEnumKey<T>(T value) where T : Enum
     {
-        return typeof(T)?.GetField(value.ToString())?.GetCustomAttribute<ReferenceIdAttribute>()?.ReferenceId
+        return typeof(T)?.GetField(value.ToString())?.GetCustomAttribute<CodeAttribute>()?.ReferenceId
             ?? throw new InvalidCastException($"ReferenceIdAttribute must be present for {value}.");
     }
 }

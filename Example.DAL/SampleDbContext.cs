@@ -63,6 +63,10 @@ public class SampleDbContext : DbContext
                 .IsRequired()
                 .HasConversion(new ReferenceEnumConverter2<PersonOccupationReason2>());
 
+            entity.Property(e => e.Occupation22)
+                .IsRequired()
+                .HasConversion(new ReferenceEnumConverter2<PersonOccupation2>());
+
             entity.Property(e => e.CreatedBy)
                 .HasMaxLength(50)
                 .IsRequired()

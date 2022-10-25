@@ -12,6 +12,7 @@ public class Person : EntityBase, IAuditableEntity
     public PersonOccupationReason OccupationReason { get; set; }
     public PersonSex2? Sex2 { get; set; }  // optional just for testing
     public PersonOccupation2 Occupation2 { get; set; }
+    public PersonOccupation2 Occupation22 { get; set; }
     public PersonOccupationReason2 OccupationReason2 { get; set; }
     public byte[] RowVersion { get; set; }
 }

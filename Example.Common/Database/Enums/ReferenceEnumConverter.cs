@@ -18,24 +18,44 @@ public class ReferenceEnumConverter<T> : ValueConverter<T, Guid>
 
     private static Guid ToGuid(Enum value)
     {
-        ReferenceIdAttribute? attribute = value.GetType()
-            ?.GetField(value.ToString())
-            ?.GetCustomAttribute<ReferenceIdAttribute>();
+        ReferenceByProductEnum enumAttr = value.GetType().GetCustomAttribute<ReferenceByProductEnum>()
+            ?? throw new ArgumentException($"ReferenceByProductEnum is missing for enum {value.GetType().FullName}.");
 
-        return attribute?.ReferenceId ?? throw new ArgumentException($"Can't convert value {(T)value} to Guid.");
+        CodeAttribute? codeAttr = value.GetType()
+            ?.GetField(value.ToString())
+            ?.GetCustomAttribute<CodeAttribute>();
+
+        string code = codeAttr?.Code ?? value.ToString();
+
+        ReferenceByProductCommon? r = ReferenceByProductProviderStaticHost.ReferenceByProductCache.FirstOrDefault(x => x.Code == code
+            && x.Entity == enumAttr.Entity
+            && x.Reference == enumAttr.Reference
+            && x.ProductShortName == enumAttr.ProductShortName);
+
+        if (r == null)
+            // TODO: better Exception
+            throw new ArgumentException($"Can't convert value {(T)value} to Guid.");
+
+        return r.Id;
     }
 
     private static T ToEnum(Guid referenceId)
     {
+        ReferenceByProductCommon? r = ReferenceByProductProviderStaticHost.ReferenceByProductCache.FirstOrDefault(x => x.Id == referenceId);
+
+        if (r == null)
+            // TODO: better Exception
+            throw new ArgumentException($"Can't convert value {referenceId} to Enum.");
+
         FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static);
 
-        ReferenceIdAttribute? attribute;
+        CodeAttribute? attribute;
 
         foreach (FieldInfo field in fields)
         {
-            attribute = field.GetCustomAttribute<ReferenceIdAttribute>();
+            attribute = field.GetCustomAttribute<CodeAttribute>();
 
-            if (attribute?.ReferenceId == referenceId)
+            if (attribute?.Code == r.Code || field.Name == r.Code)
                 return Enum.Parse<T>(field.Name);
         }
 

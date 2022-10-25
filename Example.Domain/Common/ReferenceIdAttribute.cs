@@ -1,12 +1,12 @@
 ﻿namespace Example.Domain.Common;
 
 [AttributeUsage(AttributeTargets.Field)]
-public class ReferenceIdAttribute : Attribute
+public class CodeAttribute : Attribute
 {
-    public Guid ReferenceId { get; }
+    public string Code { get; }
 
-    public ReferenceIdAttribute(string referenceId)
+    public CodeAttribute(string code)
     {
-        ReferenceId = Guid.Parse(referenceId);
+        Code = code;
     }
 }

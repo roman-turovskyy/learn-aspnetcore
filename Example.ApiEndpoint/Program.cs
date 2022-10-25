@@ -66,11 +66,3 @@ app.UseMvc(builder =>
 app.MapControllers();
 
 app.Run();
-
-
-//static IEdmModel GetEdmModel()
-//{
-//    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-//    builder.EntitySet<Person>("Person");
-//    return builder.GetEdmModel();
-//}

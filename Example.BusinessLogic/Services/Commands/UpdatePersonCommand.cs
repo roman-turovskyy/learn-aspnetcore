@@ -46,6 +46,7 @@ public class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand, C
         existing.OccupationReason = command.OccupationReason;
         existing.Sex2 = command.Sex2;
         existing.Occupation2 = command.Occupation2;
+        existing.Occupation22 = command.Occupation2;
         existing.OccupationReason2 = command.OccupationReason2;
 
         await _dbContext.SaveChangesAsync(cancellationToken);

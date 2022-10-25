@@ -39,6 +39,7 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, C
             OccupationReason = command.OccupationReason,
             Sex2 = command.Sex2,
             Occupation2 = command.Occupation2,
+            Occupation22 = command.Occupation2,
             OccupationReason2 = command.OccupationReason2
         };
 

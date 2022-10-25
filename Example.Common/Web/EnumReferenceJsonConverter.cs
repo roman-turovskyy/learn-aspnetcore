@@ -44,7 +44,7 @@ public class EnumReferenceJsonConverter : JsonConverter
                 return Activator.CreateInstance(t, enumText);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             throw;
             //throw new JsonSerializationException($"Error converting value {0} to type '{1}'.".FormatWith(CultureInfo.InvariantCulture, MiscellaneousUtils.ToString(reader.Value), objectType), ex);
