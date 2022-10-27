@@ -1,22 +1,25 @@
 using AutoMapper;
 using Example.Common.Web;
-using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNet.OData.Formatter;
+using Example.Domain.Enums;
+using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using Newtonsoft.Json.Converters;
+using System.Net;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddOData();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
     options.SerializerSettings.Converters.Add(new StringEnumConverter { AllowIntegerValues = false });
     options.SerializerSettings.Converters.Add(new EnumReferenceJsonConverter());
-});
+})
+    .AddOData(options => options.Select().Filter().OrderBy()/*.AddRouteComponents("odata", GetEdmModel())*/);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -59,10 +62,25 @@ app.UseRouting();
 
 app.UseMvc(builder =>
 {
-    builder.Filter().Select().OrderBy().MaxTop(null).Count().Expand();
-    builder.EnableDependencyInjection();
+    //builder.Filter().Select().OrderBy().MaxTop(null).Count().Expand();
+    //builder.EnableDependencyInjection();
 });
 
 app.MapControllers();
 
 app.Run();
+
+IEdmModel GetEdmModel()
+{
+    EdmModel model = new EdmModel();
+
+    //EdmEntityType customer = new EdmEntityType("Example.Domain.Enums", "PersonOccupation2");
+    //customer.AddKeys(customer.AddStructuralProperty("Value", EdmPrimitiveTypeKind.String));
+    //model.AddElement(customer);
+
+    //ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+    //builder.AddEntityType(typeof(PersonOccupation2));
+    //return builder.GetEdmModel();
+
+    return model;
+}

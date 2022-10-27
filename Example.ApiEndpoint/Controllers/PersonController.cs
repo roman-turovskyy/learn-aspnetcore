@@ -2,10 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.ApiEndpoint.Extensions;
 using Example.Domain.Entities;
-using Microsoft.AspNet.OData;
 using AutoMapper.QueryableExtensions;
 using Example.ApiEndpoint.DTO;
 using AutoMapper;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace ApiEndpoint.Controllers;
 
@@ -41,9 +42,10 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet, Route("odata"), EnableQuery]
-    public IQueryable<PersonDTO> GetListOdata()
+    public IQueryable<Person> GetListOdata()
     {
-        return _appDbContext.Person.ProjectTo<PersonDTO>(_mapper.ConfigurationProvider);
+        return _appDbContext.Person;
+        //return _appDbContext.Person.ProjectTo<PersonDTO>(_mapper.ConfigurationProvider);
     }
 
     [HttpPost]

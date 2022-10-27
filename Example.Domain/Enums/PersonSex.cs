@@ -1,6 +1,6 @@
 ﻿namespace Example.Domain.Enums;
 
-[ReferenceByProductEnum("DME", "Sex", "Person")]
+[ReferenceByProductEnum("PAC", "Sex", "Person")]
 public enum PersonSex
 {
     Unknown,
@@ -16,7 +16,7 @@ public class PersonSex2 : EnumReference
     public static readonly PersonSex2 Male = new PersonSex2("Male");
     public static readonly PersonSex2 Female = new PersonSex2("Female");
 
-    public PersonSex2(string value) : base(value, "DME", "Sex", "Person")
+    public PersonSex2(string value) : base(value, "PAC", "Sex", "Person")
     {
     }
 }

@@ -74,8 +74,57 @@ internal class DbDataSeeding
             Occupation22 = PersonOccupation2.DoingNothing
         });
 
-        _context.Add(new PersonLegacy { PersonLegacyId = "A53673EC-D6F2-4368-BA3F-C258ED63762D".G(), FirstName = "Roman", LastName = "Turovskyy Legacy" });
-        _context.Add(new PersonLegacy { PersonLegacyId = "5EC7C220-6FF6-4C6B-8987-AF8329B2DF2A".G(), FirstName = "Van", LastName = "Dam Legacy" });
+        _context.Add(new PersonLegacy
+        {
+            PersonLegacyId = "A53673EC-D6F2-4368-BA3F-C258ED63762D".G(),
+            FirstName = "Roman",
+            LastName = "Turovskyy Legacy"
+        });
+        _context.Add(new PersonLegacy
+        {
+            PersonLegacyId = "5EC7C220-6FF6-4C6B-8987-AF8329B2DF2A".G(),
+            FirstName = "Van",
+            LastName = "Dam Legacy"
+        });
+
+        _context.Add(new HomeHealthAuthorization
+        {
+            AuthorizationNumber = "000",
+            Status = AuthorizationStatus.Draft,
+            Status2 = AuthorizationStatus2.Draft
+        });
+
+        _context.Add(new PacAuthorization
+        {
+            AuthorizationNumber = "111",
+            AdmitDate = new DateTime(2020, 1, 1),
+            Pacman = true,
+            Status = AuthorizationStatus.Draft,
+            Status2 = AuthorizationStatus2.Draft
+        });
+        _context.Add(new PacAuthorization
+        {
+            AuthorizationNumber = "222",
+            AdmitDate = new DateTime(2020, 2, 2),
+            Pacman = false,
+            Status = AuthorizationStatus.Draft,
+            Status2 = AuthorizationStatus2.Draft
+        });
+
+        _context.Add(new DmeAuthorization
+        {
+            AuthorizationNumber = "111",
+            EquipmentCode = "c1",
+            Status = AuthorizationStatus.Draft,
+            Status2 = AuthorizationStatus2.Draft
+        });
+        _context.Add(new DmeAuthorization
+        {
+            AuthorizationNumber = "222",
+            EquipmentCode = "c2",
+            Status = AuthorizationStatus.Draft,
+            Status2 = AuthorizationStatus2.Draft
+        });
 
         await _context.SaveChangesAsync();
 
@@ -93,14 +142,14 @@ internal class DbDataSeeding
 
     private void SeedEnums()
     {
-        Product pacProduct = new Product { ShortName = "DME" };
+        Product pacProduct = new Product { ShortName = "PAC" };
+        Product dmeProduct = new Product { ShortName = "DME" };
         _context.Add(pacProduct);
 
         var enums = new List<ReferenceByProduct>();
 
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(BlogStatus.Draft),
             Description = "Draft",
             SortOrder = 10,
             Entity = "BlogPost",
@@ -109,7 +158,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(BlogStatus.OnReview),
             Description = "On Review",
             SortOrder = 20,
             Entity = "BlogPost",
@@ -118,7 +166,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(BlogStatus.Published),
             Description = "Published",
             SortOrder = 30,
             Entity = "BlogPost",
@@ -129,7 +176,6 @@ internal class DbDataSeeding
 
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonSex.Unknown),
             Description = "Unknown",
             SortOrder = 10,
             Entity = "Person",
@@ -138,7 +184,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonSex.Male),
             Description = "Male",
             SortOrder = 20,
             Entity = "Person",
@@ -147,7 +192,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonSex.Female),
             Description = "Female",
             SortOrder = 10,
             Entity = "Person",
@@ -158,7 +202,6 @@ internal class DbDataSeeding
 
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonOccupation.WorkingHard),
             Description = "Working Hard",
             SortOrder = 10,
             Entity = "Person",
@@ -167,7 +210,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonOccupation.DoingNothing),
             Description = "Doing Nothing",
             SortOrder = 20,
             Entity = "Person",
@@ -187,7 +229,6 @@ internal class DbDataSeeding
 
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonOccupationReason.NobodyKnows),
             Description = "Nobody Knows",
             SortOrder = 10,
             Entity = "Person",
@@ -196,7 +237,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonOccupationReason.BecauseIsLazy),
             Description = "Because Is Lazy",
             SortOrder = 20,
             Entity = "Person",
@@ -205,7 +245,6 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonOccupationReason.BecauseNeedsMoney),
             Description = "Because Needs Money",
             SortOrder = 30,
             Entity = "Person",
@@ -214,12 +253,38 @@ internal class DbDataSeeding
         });
         enums.Add(new ReferenceByProduct
         {
-            ReferenceByProductId = GetEnumKey(PersonOccupationReason.BecauseLikesToWork),
             Description = "Because Likes To Work",
             SortOrder = 40,
             Entity = "Person",
             Reference = "OccupationReason",
             Product = pacProduct
+        });
+
+        enums.Add(new ReferenceByProduct
+        {
+            Description = "Draft",
+            SortOrder = 10,
+            Entity = "Authorization",
+            Reference = "Status",
+            Product = dmeProduct
+        });
+
+        enums.Add(new ReferenceByProduct
+        {
+            Description = "Pending Approval",
+            SortOrder = 20,
+            Entity = "Authorization",
+            Reference = "Status",
+            Product = dmeProduct
+        });
+
+        enums.Add(new ReferenceByProduct
+        {
+            Description = "Canceled",
+            SortOrder = 30,
+            Entity = "Authorization",
+            Reference = "Status",
+            Product = dmeProduct
         });
 
         foreach (var e in enums)
@@ -229,11 +294,5 @@ internal class DbDataSeeding
 
         // Force save changes after seeding enums so data that depends on enums is available for the ReferenceByProductProvider
         _context.SaveChanges();
-    }
-
-    private static Guid GetEnumKey<T>(T value) where T : Enum
-    {
-        return typeof(T)?.GetField(value.ToString())?.GetCustomAttribute<CodeAttribute>()?.ReferenceId
-            ?? throw new InvalidCastException($"ReferenceIdAttribute must be present for {value}.");
     }
 }

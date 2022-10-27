@@ -1,6 +1,6 @@
 ﻿namespace Example.Domain.Enums;
 
-[ReferenceByProductEnum("DME", "OccupationReason", "Person")]
+[ReferenceByProductEnum("PAC", "OccupationReason", "Person")]
 public enum PersonOccupationReason
 {
     NobodyKnows,
@@ -20,7 +20,7 @@ public class PersonOccupationReason2 : EnumReference
     public static readonly PersonOccupationReason2 BecauseLikesToWork = new PersonOccupationReason2("BecauseLikesToWork");
     public static readonly PersonOccupationReason2 BecauseIsLazy = new PersonOccupationReason2("BecauseIsLazy");
 
-    public PersonOccupationReason2(string value) : base(value, "DME", "OccupationReason", "Person")
+    public PersonOccupationReason2(string value) : base(value, "PAC", "OccupationReason", "Person")
     {
     }
 }

@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.Domain.Entities;
+using Example.Application;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace Example.ApiEndpoint.Controllers;
 
@@ -9,8 +11,19 @@ namespace Example.ApiEndpoint.Controllers;
 public class PersonLegacyController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly AppDbContext _appDbContext;
 
-    public PersonLegacyController(IMediator mediator) => _mediator = mediator;
+    public PersonLegacyController(IMediator mediator, AppDbContext appDbContext)
+    {
+        _mediator = mediator;
+        _appDbContext = appDbContext;
+    }
+
+    [HttpGet, Route("odata"), EnableQuery]
+    public IQueryable<PersonLegacy> GetListOdata()
+    {
+        return _appDbContext.PersonLegacy;
+    }
 
     [HttpGet, Route("{id}")]
     public async Task<ActionResult<Person>> GetSingle(Guid id)
