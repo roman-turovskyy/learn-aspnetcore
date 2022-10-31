@@ -1,12 +1,10 @@
 ﻿using Example.Common.Database.Enums;
 using Example.DAL;
-using Example.Domain.Common;
 using Example.Domain.Entities;
 using Example.Domain.Enums;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using System.Reflection;
 
 namespace Example.MigrateDatabase;
 

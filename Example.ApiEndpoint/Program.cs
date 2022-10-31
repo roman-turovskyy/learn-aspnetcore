@@ -69,18 +69,3 @@ app.UseMvc(builder =>
 app.MapControllers();
 
 app.Run();
-
-IEdmModel GetEdmModel()
-{
-    EdmModel model = new EdmModel();
-
-    //EdmEntityType customer = new EdmEntityType("Example.Domain.Enums", "PersonOccupation2");
-    //customer.AddKeys(customer.AddStructuralProperty("Value", EdmPrimitiveTypeKind.String));
-    //model.AddElement(customer);
-
-    //ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    //builder.AddEntityType(typeof(PersonOccupation2));
-    //return builder.GetEdmModel();
-
-    return model;
-}

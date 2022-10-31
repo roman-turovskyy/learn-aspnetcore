@@ -34,7 +34,7 @@ public class ReferenceEnumConverter<T> : ValueConverter<T, Guid>
 
         if (r == null)
             // TODO: better Exception
-            throw new ArgumentException($"Can't convert value {(T)value} to Guid.");
+            throw new ArgumentException($"Can't convert value {(T)value} of type {value.GetType().FullName} to Guid.");
 
         return r.Id;
     }

@@ -1,5 +1,4 @@
 ﻿using Example.DAL;
-using Example.Domain.Entities;
 using Example.MigrateDatabase;
 using Microsoft.EntityFrameworkCore;
 
