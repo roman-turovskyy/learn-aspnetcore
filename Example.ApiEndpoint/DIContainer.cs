@@ -1,4 +1,5 @@
 ﻿using Example.Common.Database;
+using Example.Common.Database.Audit;
 using Example.Common.Database.Enums;
 using Example.Common.Messaging;
 using Example.DAL;
@@ -22,8 +23,9 @@ public static class DIContainer
 
         services.AddTransient<AuditingInterceptor>();
         services.AddTransient<IAuditDataProvider, AuditDataProvider>();
+        services.AddTransient<IAuditLegacyInterceptor, AuditLegacyInterceptor>();
 
-        services.AddTransient<SystemFieldsUpdateInterceptor>();
+        services.AddTransient<BuiltinAuditFieldsUpdateInterceptor>();
 
         services.AddMediatR(typeof(ApplicationAssemblyMarkerClass));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
@@ -56,9 +58,9 @@ public static class DIContainer
                         sqlServerOptAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
                         sqlServerOptAction.CommandTimeout(databaseOptions.CommandTimeout);
                     })
-                    .AddInterceptors(
-                        sp.GetRequiredService<SystemFieldsUpdateInterceptor>(),
-                        sp.GetRequiredService<AuditingInterceptor>())
+                    //.AddInterceptors(
+                    //    sp.GetRequiredService<BuiltinAuditFieldsUpdateInterceptor>(),
+                    //    sp.GetRequiredService<AuditingInterceptor>())
                     .EnableDetailedErrors(databaseOptions.EnableDetailedError)
                     .EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
             });

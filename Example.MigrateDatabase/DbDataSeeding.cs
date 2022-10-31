@@ -138,7 +138,7 @@ internal class DbDataSeeding
         }
     }
 
-    private void SeedEnums()
+    internal void SeedEnums()
     {
         Product pacProduct = new Product { ShortName = "PAC" };
         Product dmeProduct = new Product { ShortName = "DME" };

@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Example.Common.Database;
+namespace Example.Common.Database.Audit;
 
-public class SystemFieldsUpdateInterceptor : SaveChangesInterceptor
+public class BuiltinAuditFieldsUpdateInterceptor : SaveChangesInterceptor
 {
     private IDateTimeProvider _dateTimeProvider;
     private IUserProvider _userProvider;
 
-    public SystemFieldsUpdateInterceptor(IDateTimeProvider dateTimeProvider, IUserProvider userProvider)
+    public BuiltinAuditFieldsUpdateInterceptor(IDateTimeProvider dateTimeProvider, IUserProvider userProvider)
     {
         _dateTimeProvider = dateTimeProvider;
         _userProvider = userProvider;
@@ -18,19 +18,19 @@ public class SystemFieldsUpdateInterceptor : SaveChangesInterceptor
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        SetSystemFields(eventData.Context);
+        SetBuiltinAuditFields(eventData.Context);
 
         return base.SavingChanges(eventData, result);
     }
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
-        SetSystemFields(eventData.Context);
+        SetBuiltinAuditFields(eventData.Context);
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    private void SetSystemFields(DbContext? context)
+    private void SetBuiltinAuditFields(DbContext? context)
     {
         if (context == null)
             return;

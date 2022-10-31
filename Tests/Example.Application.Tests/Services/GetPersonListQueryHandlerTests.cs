@@ -1,5 +1,6 @@
 ﻿using Example.Application.Tests.Helpers;
 using Example.Domain.Entities;
+using Example.Domain.Enums;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -22,11 +23,20 @@ public class GetPersonListQueryHandlerTests
     }
 
     [Fact]
+
     public async Task DataBaseWithSinglePerson_ThatPersonIsReturned_Test()
     {
         using (AppDbContext dbContext = TestDbContext.Create())
         {
-            var person = new Person() { PersonId = Guid.NewGuid(), FirstName = "FirstName1", LastName = "LastName1" };
+            var person = new Person()
+            {
+                PersonId = Guid.NewGuid(),
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Occupation2 = PersonOccupation2.WorkingHard,
+                Occupation22 = PersonOccupation2.WorkingHard,
+                OccupationReason2 = PersonOccupationReason2.NobodyKnows
+            };
             dbContext.Person.Add(person);
             await dbContext.SaveChangesAsync();
 

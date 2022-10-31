@@ -1,11 +1,13 @@
-﻿using Example.Common.Database.Enums;
+﻿using Example.Common;
+using Example.Common.Database;
+using Example.Common.Database.Enums;
 using Example.Domain.Entities;
 using Example.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Example.DAL;
 
-public class SampleDbContext : DbContext
+public class SampleDbContext : AuditableDbContextBase
 {
     public virtual DbSet<Person> Person { get; set; }
     public virtual DbSet<PersonLegacy> PersonLegacy { get; set; }
@@ -20,7 +22,8 @@ public class SampleDbContext : DbContext
     public virtual DbSet<ReferenceByProduct> ReferenceByProduct { get; set; }
     //public virtual DbSet<ReferenceChild> ReferenceChild { get; set; }
 
-    public SampleDbContext(DbContextOptions options) : base(options)
+    public SampleDbContext(DbContextOptions options, IAuditLegacyInterceptor auditLegacyInterceptor)
+        : base(options, auditLegacyInterceptor)
     {
     }
 

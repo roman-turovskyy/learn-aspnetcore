@@ -23,7 +23,7 @@ static SampleDbContext GetDbContext()
                         .UseSqlServer(connStr)
                         .Options;
 
-    return new SampleDbContext(contextOptions);
+    return new SampleDbContext(contextOptions, new NoOpAuditLegacyInterceptor());
 }
 
 static async Task CreateDatabases()
