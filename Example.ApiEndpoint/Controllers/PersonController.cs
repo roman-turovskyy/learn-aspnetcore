@@ -2,8 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.ApiEndpoint.Extensions;
 using Example.Domain.Entities;
-using AutoMapper.QueryableExtensions;
-using Example.ApiEndpoint.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;

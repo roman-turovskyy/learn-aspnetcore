@@ -16,7 +16,7 @@ public class ReferenceByProductProvider : IReferenceByProductProvider
         _memoryCache = memoryCache;
     }
 
-    public List<ReferenceByProductCommon> GetRefrences(string? productShortName = null, string? entity = null, string? reference = null)
+    public List<ReferenceByProductCommon> GetReferences(string? productShortName = null, string? entity = null, string? reference = null)
     {
         return _memoryCache.GetOrCreate("ReferenceByProductProvider", entry =>
         {

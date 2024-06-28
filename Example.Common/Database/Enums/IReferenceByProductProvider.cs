@@ -2,5 +2,5 @@
 
 public interface IReferenceByProductProvider
 {
-    List<ReferenceByProductCommon> GetRefrences(string? productShortName = null, string? entity = null, string? reference = null);
+    List<ReferenceByProductCommon> GetReferences(string? productShortName = null, string? entity = null, string? reference = null);
 }

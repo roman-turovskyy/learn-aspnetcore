@@ -27,7 +27,8 @@ public static class DIContainer
 
         services.AddTransient<BuiltinAuditFieldsUpdateInterceptor>();
 
-        services.AddMediatR(typeof(ApplicationAssemblyMarkerClass));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(ApplicationAssemblyMarkerClass).Assembly));
+
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
         AddDbContext(builder, services);

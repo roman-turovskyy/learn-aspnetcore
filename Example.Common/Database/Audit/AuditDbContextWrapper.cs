@@ -28,6 +28,7 @@ internal class AuditDbContextWrapper : IAuditDbContext
     public Dictionary<string, object> ExtraFields { get; } = new Dictionary<string, object>();
     public DbContext DbContext => _dbContext;
     public Dictionary<Type, EfEntitySettings> EntitySettings { get; set; }
+    public bool ReloadDatabaseValues { get; set; }
     public bool ExcludeTransactionId { get; set; }
     public bool EarlySavingAudit { get; set; }
 

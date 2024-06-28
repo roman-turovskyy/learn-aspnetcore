@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Example.Domain.Entities;
-using Example.Application;
 using Microsoft.AspNetCore.OData.Query;
 
 namespace Example.ApiEndpoint.Controllers;

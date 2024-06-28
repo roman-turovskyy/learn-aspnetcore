@@ -1,13 +1,8 @@
 using AutoMapper;
 using Example.Common.Web;
-using Example.Domain.Enums;
 using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.Net.Http.Headers;
-using Microsoft.OData.Edm;
-using Microsoft.OData.ModelBuilder;
+using Microsoft.AspNetCore.OData.NewtonsoftJson;
 using Newtonsoft.Json.Converters;
-using System.Net;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -19,21 +14,12 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.Converters.Add(new StringEnumConverter { AllowIntegerValues = false });
     options.SerializerSettings.Converters.Add(new EnumReferenceJsonConverter());
 })
-    .AddOData(options => options.Select().Filter().OrderBy()/*.AddRouteComponents("odata", GetEdmModel())*/);
+    .AddOData(options => options.Select().Filter().OrderBy())
+    .AddODataNewtonsoftJson(); // https://stackoverflow.com/a/76231680
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddMvcCore(options =>
-{
-    options.EnableEndpointRouting = false;
-    foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
-        outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
-
-    foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
-        inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
-});
 
 DIContainer.Configure(builder);
 
@@ -59,12 +45,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseRouting();
-
-app.UseMvc(builder =>
-{
-    //builder.Filter().Select().OrderBy().MaxTop(null).Count().Expand();
-    //builder.EnableDependencyInjection();
-});
 
 app.MapControllers();
 

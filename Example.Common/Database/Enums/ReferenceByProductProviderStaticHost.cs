@@ -11,7 +11,7 @@ public static class ReferenceByProductProviderStaticHost
             if (_referenceByProductProvider is null)
                 throw new InvalidCastException("Did you forget to call SetReferenceByProductProvider() in your DI setup code?");
 
-            return _referenceByProductProvider.GetRefrences();
+            return _referenceByProductProvider.GetReferences();
         }
     }
 
